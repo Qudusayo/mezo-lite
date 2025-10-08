@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { TouchableOpacity, Text, SafeAreaView, Image, View } from 'react-native';
 import { dynamicClient } from 'utils/config';
-import { Link, router } from 'expo-router';
+import { Link } from 'expo-router';
 import { ArrowUpIcon, PlusIcon, QrCodeIcon, RepeatIcon, ScanIcon } from 'components/icons';
 import ButtonControl from 'components/button-control';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
@@ -9,7 +9,7 @@ import TokenBalanceDisplay from 'components/token-balance';
 import TokenTransactions from 'components/token-transactions';
 
 export default function App() {
-  const { auth, wallets } = useReactiveClient(dynamicClient);
+  const { auth } = useReactiveClient(dynamicClient);
 
   const user = useMemo(() => auth.authenticatedUser, [auth.authenticatedUser]);
   const username = useMemo(() => {
@@ -39,10 +39,7 @@ export default function App() {
         </View>
         <View>
           <Text className="font-satoshiMedium text-lg text-white">Your Assets</Text>
-          <TokenBalanceDisplay
-            walletAddress={wallets.primary?.address || '0x0000000000000000000000000000000000000000'}
-            tokenAddress="0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
-          />
+          <TokenBalanceDisplay />
         </View>
 
         <View className="flex-row justify-around gap-4">
@@ -53,8 +50,6 @@ export default function App() {
         </View>
       </View>
       <TokenTransactions
-        walletAddress={wallets.primary?.address || '0x0000000000000000000000000000000000000000'}
-        tokenAddress="0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503"
         containerClassName="flex-1 rounded-t-3xl bg-white"
         headerText="Recent Activity"
       />

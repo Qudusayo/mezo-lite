@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { router, Stack } from 'expo-router';
 import { dynamicClient } from 'utils/config';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
+import { GlobalProvider } from '../context/global-context';
 import '../global.css';
 
 SplashScreen.setOptions({
@@ -35,7 +36,7 @@ const Layout = () => {
   }, [sdk.loaded]);
 
   return (
-    <>
+    <GlobalProvider>
       <dynamicClient.reactNative.WebView />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={!!auth.authenticatedUser}>
@@ -47,7 +48,7 @@ const Layout = () => {
           <Stack.Screen name="login" />
         </Stack.Protected>
       </Stack>
-    </>
+    </GlobalProvider>
   );
 };
 

@@ -5,15 +5,16 @@ import { BackspaceIcon } from 'components/icons';
 import { cn } from 'utils';
 import WithArrowBack from 'layout/WithArrowBack';
 import { useLocalSearchParams } from 'expo-router';
+import { useTokenBalance } from 'context/global-context';
 
 export default function AmountInput() {
+  const { balance } = useTokenBalance();
   const [amount, setAmount] = useState('0');
-  const balance = '1,517.82';
   const localSearchParams = useLocalSearchParams();
 
   const cashLink = localSearchParams.cashLink;
 
-  console.log("Is cash link:", cashLink);
+  console.log('Is cash link:', cashLink);
 
   const handleNumberPress = async (num: string) => {
     // Trigger light haptic feedback
@@ -109,7 +110,7 @@ export default function AmountInput() {
         {/* Amount Section */}
         <View className="mb-10">
           <Text className="mb-2 font-satoshiSemiBold text-4xl">Amount</Text>
-          <Text className="mb-15 text-base text-gray-500">Balance: ${balance}</Text>
+          <Text className="mb-15 text-base text-gray-500">Balance: ${balance?.formatted}</Text>
         </View>
 
         <View className="flex-1 justify-between">
