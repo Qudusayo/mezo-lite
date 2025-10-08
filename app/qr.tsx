@@ -26,13 +26,13 @@ const Qr = () => {
             <QrCodeSvg
               style={{
                 padding: 10,
-                borderRadius: 10,
+                borderRadius: 20,
                 backgroundColor: '#FFBB00',
                 borderWidth: 8,
               }}
-              value={wallets.primary?.address || ''}
+              value={user?.phoneNumber || ''}
               frameSize={SIZE}
-              contentCells={7}
+              contentCells={4}
               dotColor="#000000"
               content={
                 <Image

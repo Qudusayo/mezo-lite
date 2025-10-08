@@ -6,7 +6,7 @@ const Pay = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 p-4">
-        <Text className="font-satoshiSemiBold mb-6 text-3xl">Pay Via</Text>
+        <Text className="mb-6 font-satoshiSemiBold text-3xl">Pay Via</Text>
         <View className="gap-0.5">
           <View className="flex-row items-center gap-4 rounded-t-xl bg-[#7978770c] p-4">
             <PhoneIcon color="black" width={24} height={24} />

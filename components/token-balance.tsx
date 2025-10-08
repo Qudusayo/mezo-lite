@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text } from 'react-native';
 import { ethers } from 'ethers';
+import Shimmer from './shimmer';
 
 const TokenBalanceDisplay = ({
   walletAddress,
@@ -65,8 +66,8 @@ const TokenBalanceDisplay = ({
 
   if (loading)
     return (
-      <View className="flex-1 items-start justify-center">
-        <ActivityIndicator />
+      <View>
+        <Shimmer width={100} height={35} radius={8} />
       </View>
     );
   if (error) return <Text>Error: {error}</Text>;

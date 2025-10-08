@@ -39,6 +39,7 @@ const Layout = () => {
         <Stack.Protected guard={!!auth.authenticatedUser}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="qr" />
+          <Stack.Screen name="scan" />
         </Stack.Protected>
         <Stack.Protected guard={!auth.authenticatedUser}>
           <Stack.Screen name="login" />

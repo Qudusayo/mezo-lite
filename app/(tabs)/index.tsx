@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, Text, SafeAreaView, Image, View } from 'react-native';
 import { dynamicClient } from 'utils/config';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { ArrowUpIcon, PlusIcon, QrCodeIcon, RepeatIcon, ScanIcon } from 'components/icons';
 import ButtonControl from 'components/button-control';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
@@ -16,20 +16,8 @@ export default function App() {
     return user?.metadata && ((user?.metadata as Record<string, string>)['Username'] as string);
   }, [user]);
 
-  useEffect(() => {
-    console.log('REQUEST FETCHING BALANCE...');
-    const getBalance = async () => {
-      if (wallets.primary) {
-        console.log('FETCHING BALANCE...');
-        console.log('BALANCE: ', await wallets.getBalance({ wallet: wallets.primary }));
-      }
-    };
-
-    getBalance();
-  }, [wallets]);
-
   return (
-    <SafeAreaView className="bg-primary relative flex-1">
+    <SafeAreaView className="relative flex-1 bg-primary">
       <Image
         source={require('../../assets/images/background.png')}
         className="absolute left-0 top-0 w-screen"
@@ -38,7 +26,7 @@ export default function App() {
         <View className="flex-row items-center justify-between">
           <TouchableOpacity
             activeOpacity={0.8}
-            className="bg-light w-min flex-row items-center gap-2 rounded-full p-1.5 pr-3"
+            className="w-min flex-row items-center gap-2 rounded-full bg-light p-1.5 pr-3"
             onPress={() => dynamicClient.ui.auth.show()}>
             <View className="size-9 rounded-full bg-white"></View>
             <Text className="font-satoshiSemiBold text-lg text-white">Welcome {username}!</Text>
@@ -58,10 +46,10 @@ export default function App() {
         </View>
 
         <View className="flex-row justify-around gap-4">
-          <ButtonControl icon={ScanIcon} label="Scan QR" />
-          <ButtonControl icon={PlusIcon} label="Deposit" />
-          <ButtonControl icon={ArrowUpIcon} label="Withdraw" />
-          <ButtonControl icon={RepeatIcon} label="History" />
+          <ButtonControl icon={ScanIcon} label="Scan QR" href="/scan" />
+          <ButtonControl icon={PlusIcon} label="Deposit" href="/deposit" />
+          <ButtonControl icon={ArrowUpIcon} label="Withdraw" href="/withdraw" />
+          <ButtonControl icon={RepeatIcon} label="History" href="/history" />
         </View>
       </View>
       <TokenTransactions

@@ -15,6 +15,22 @@
       "expo-secure-store",
       "expo-router",
       [
+        "expo-splash-screen",
+        {
+          "android": {
+            "image": "./assets/splash-icon.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#FFBB00"
+          },
+          "ios": {
+            "image": "./assets/splash.png",
+            "resizeMode": "cover",
+            "backgroundColor": "#FFBB00",
+            "enableFullScreenImage_legacy": true
+          }
+        }
+      ],
+      [
         "expo-font",
         {
           "fonts": [
@@ -24,17 +40,20 @@
             "./assets/fonts/Satoshi-Regular.otf"
           ]
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
       ]
     ],
     "scheme": "mezo-lite",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
@@ -43,8 +62,15 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#FFBB00"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.qudusayo.mezolite"
     }
   }
 }
