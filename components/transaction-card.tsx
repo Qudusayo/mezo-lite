@@ -34,7 +34,7 @@ const TransactionCard = ({
       </View>
       <View className="flex-1">
         <Text className="font-satoshiSemiBold text-lg">{formatAddress(address)}</Text>
-        <Text className="font-satoshi -top-1 text-sm text-gray-400">{formatDate(timestamp)}</Text>
+        <Text className="-top-1 font-satoshi text-sm text-gray-400">{formatDate(timestamp)}</Text>
       </View>
       <View>
         <Text
@@ -42,7 +42,7 @@ const TransactionCard = ({
             'font-satoshiSemiBold text-lg',
             isReceiving ? 'text-success' : 'text-error'
           )}>
-          {isReceiving ? '+' : '-'}${formatAmount(amount, decimals)}
+          {isReceiving ? '+' : '-'}${Number(formatAmount(amount, decimals)).toFixed(2)}
         </Text>
       </View>
     </View>

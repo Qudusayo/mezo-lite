@@ -1,6 +1,7 @@
-import { Text, SafeAreaView, View } from 'react-native';
+import { Text, SafeAreaView, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { AtIcon, LoacationDollarIcon, PhoneIcon } from 'components/icons';
+import { router } from 'expo-router';
 
 const Pay = () => {
   return (
@@ -15,13 +16,16 @@ const Pay = () => {
               <Text className="font-sans text-base leading-5">To any of your contacts</Text>
             </View>
           </View>
-          <View className="flex-row items-center gap-4 bg-[#7978770c] p-4">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => router.push('/cash-link')}
+            className="flex-row items-center gap-4 bg-[#7978770c] p-4">
             <LoacationDollarIcon color="black" width={24} height={24} />
             <View>
               <Text className="font-satoshiMedium text-xl">Shareable Cash Link</Text>
               <Text className="font-sans text-base leading-5">To any one not on Mezo lite yet</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <View className="flex-row items-center gap-4 rounded-b-xl bg-[#7978770c] p-4">
             <AtIcon color="black" width={24} height={24} />
             <View>

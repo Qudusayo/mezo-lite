@@ -13,10 +13,12 @@ SplashScreen.setOptions({
 SplashScreen.preventAutoHideAsync();
 
 const Layout = () => {
-  const { sdk, auth } = useReactiveClient(dynamicClient);
+  const { sdk, auth, wallets } = useReactiveClient(dynamicClient);
 
   useEffect(() => {
     if (sdk.loaded) {
+      console.log("USER AUTH", auth.token);
+      // auth.refreshUser()
       SplashScreen.hideAsync();
     }
 

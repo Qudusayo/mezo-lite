@@ -31,11 +31,11 @@ export default function App() {
             <View className="size-9 rounded-full bg-white"></View>
             <Text className="font-satoshiSemiBold text-lg text-white">Welcome {username}!</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} className="flex-row items-center justify-end">
-            <Link href="/qr" asChild>
+          <Link href="/qr" asChild>
+            <TouchableOpacity activeOpacity={0.8} className="flex-row items-center justify-end">
               <QrCodeIcon color="white" width={32} height={32} />
-            </Link>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </Link>
         </View>
         <View>
           <Text className="font-satoshiMedium text-lg text-white">Your Assets</Text>
@@ -48,7 +48,7 @@ export default function App() {
         <View className="flex-row justify-around gap-4">
           <ButtonControl icon={ScanIcon} label="Scan QR" href="/scan" />
           <ButtonControl icon={PlusIcon} label="Deposit" href="/deposit" />
-          <ButtonControl icon={ArrowUpIcon} label="Withdraw" href="/withdraw" />
+          <ButtonControl icon={ArrowUpIcon} label="Withdraw" href="/amount" />
           <ButtonControl icon={RepeatIcon} label="History" href="/history" />
         </View>
       </View>

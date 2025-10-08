@@ -17,7 +17,7 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(pay)"
+        name="pay"
         options={{
           title: 'Pay',
           tabBarIcon: ({ color, size }) => <BoltIcon color={color} width={size} height={size} />,
