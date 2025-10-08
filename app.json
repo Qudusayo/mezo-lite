@@ -1,24 +1,35 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "Mezo Lite",
+    "slug": "mezo-lite",
     "version": "1.0.0",
-
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
-
     "experiments": {
       "tsconfigPaths": true
     },
-
-    "plugins": [],
-
+    "plugins": [
+      "expo-web-browser",
+      "expo-secure-store",
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Satoshi-Black.otf",
+            "./assets/fonts/Satoshi-Bold.otf",
+            "./assets/fonts/Satoshi-Medium.otf",
+            "./assets/fonts/Satoshi-Regular.otf"
+          ]
+        }
+      ]
+    ],
+    "scheme": "mezo-lite",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -26,7 +37,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.qudusayo.mezo-lite"
     },
     "android": {
       "adaptiveIcon": {
