@@ -1,68 +1,17 @@
-/**
- * Global Context for Token Balance Management
- * 
- * This context provides centralized state management for token balances,
- * automatically extracting wallet information from Dynamic wallet integration.
- * 
- * Features:
- * - Auto-extracts wallet address from Dynamic wallet
- * - Manages token balance state globally
- * - Real-time balance updates via event listeners
- * - Simplified component usage (no props needed)
- * 
- * Usage Examples:
- * 
- * 1. Using the TokenBalanceDisplay component (no props needed):
- *    <TokenBalanceDisplay />
- * 
- * 2. Using hooks directly in components:
- *    const { balance, balanceLoading, refreshBalance } = useTokenBalance();
- *    const { walletAddress, isConnected, user } = useWallet();
- * 
- * 3. Changing token address (optional):
- *    const { setTokenAddress } = useWallet();
- *    setTokenAddress("0x456...");
- *    await refreshBalance();
- */
-
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  ReactNode,
+} from 'react';
 import { ethers } from 'ethers';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
 import { dynamicClient } from '../utils/config';
-
-// Types
-interface TokenBalance {
-  formatted: string;
-  symbol: string;
-  raw: string;
-}
-
-interface GlobalContextType {
-  // Token Balance State
-  balance: TokenBalance | null;
-  balanceLoading: boolean;
-  balanceError: string | null;
-  
-  // Wallet State (auto-extracted from Dynamic)
-  walletAddress: string | null;
-  tokenAddress: string;
-  rpcUrl: string;
-  
-  // Dynamic Wallet State
-  isConnected: boolean;
-  user: any;
-  
-  // Actions
-  setTokenAddress: (address: string) => void;
-  setRpcUrl: (url: string) => void;
-  refreshBalance: () => Promise<void>;
-  clearBalance: () => void;
-  retryBalance: () => Promise<void>;
-  
-  // Transaction refresh trigger
-  transactionRefreshTrigger: number;
-  triggerTransactionRefresh: () => void;
-}
+import { mezoApi } from '../utils/api';
+import { GlobalContextType, TokenBalance, Transaction } from '../types';
 
 // Create Context
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -73,23 +22,31 @@ interface GlobalProviderProps {
   initialRpcUrl?: string;
 }
 
-export const GlobalProvider: React.FC<GlobalProviderProps> = ({ 
-  children, 
-  initialRpcUrl = 'https://rpc.test.mezo.org' 
+export const GlobalProvider: React.FC<GlobalProviderProps> = ({
+  children,
+  initialRpcUrl = 'https://rpc.test.mezo.org',
 }) => {
   // Dynamic wallet integration
   const { auth, wallets } = useReactiveClient(dynamicClient);
-  
+
   // State
   const [balance, setBalance] = useState<TokenBalance | null>(null);
   const [balanceLoading, setBalanceLoading] = useState(false);
   const [balanceError, setBalanceError] = useState<string | null>(null);
-  const [tokenAddress, setTokenAddress] = useState<string>('0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503'); // Default token
+  const [tokenAddress, setTokenAddress] = useState<string>(
+    '0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503'
+  ); // Default token
   const [rpcUrl, setRpcUrl] = useState(initialRpcUrl);
   const [tokenContract, setTokenContract] = useState<ethers.Contract | null>(null);
   const [transactionRefreshTrigger, setTransactionRefreshTrigger] = useState(0);
   const balanceLoadingRef = useRef(false);
-  
+
+  // Transactions state
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
+  const [transactionsRefreshing, setTransactionsRefreshing] = useState<boolean>(false);
+  const [transactionsError, setTransactionsError] = useState<string | null>(null);
+
   // Auto-extract wallet address from Dynamic
   const walletAddress = wallets.primary?.address || null;
   const isConnected = !!auth.authenticatedUser;
@@ -106,7 +63,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
         batchMaxSize: 1024,
         batchStallTime: 100,
       });
-      
+
       const contract = new ethers.Contract(
         tokenAddress,
         [
@@ -125,61 +82,63 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
   }, [walletAddress, tokenAddress, rpcUrl]);
 
   // Fetch balance function with retry logic
-  const fetchBalance = useCallback(async (retryCount = 0) => {
-    if (!tokenContract || !walletAddress) {
-      setBalanceError('Contract or wallet address not available');
-      return;
-    }
-
-    const maxRetries = 3;
-    const retryDelay = 1000 * Math.pow(2, retryCount); // Exponential backoff
-
-    try {
-      setBalanceLoading(true);
-      balanceLoadingRef.current = true;
-      setBalanceError(null);
-      
-      // Add timeout to prevent hanging requests
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Request timeout')), 10000);
-      });
-
-      const balancePromise = Promise.all([
-        tokenContract.balanceOf(walletAddress),
-        tokenContract.decimals(),
-        tokenContract.symbol(),
-      ]);
-
-      const [balanceRaw, decimals, symbol] = await Promise.race([
-        balancePromise,
-        timeoutPromise
-      ]) as [bigint, number, string];
-
-      const formatted = ethers.formatUnits(balanceRaw, decimals);
-      setBalance({ 
-        formatted, 
-        symbol, 
-        raw: balanceRaw.toString() 
-      });
-      
-    } catch (err) {
-      console.error(`Balance fetch attempt ${retryCount + 1} failed:`, err);
-      
-      if (retryCount < maxRetries) {
-        // Retry with exponential backoff
-        setTimeout(() => {
-          fetchBalance(retryCount + 1);
-        }, retryDelay);
+  const fetchBalance = useCallback(
+    async (retryCount = 0) => {
+      if (!tokenContract || !walletAddress) {
+        setBalanceError('Contract or wallet address not available');
         return;
       }
-      
-      setBalanceError(err instanceof Error ? err.message : 'An unknown error occurred');
-      setBalance(null);
-    } finally {
-      setBalanceLoading(false);
-      balanceLoadingRef.current = false;
-    }
-  }, [tokenContract, walletAddress]);
+
+      const maxRetries = 3;
+      const retryDelay = 1000 * Math.pow(2, retryCount); // Exponential backoff
+
+      try {
+        setBalanceLoading(true);
+        balanceLoadingRef.current = true;
+        setBalanceError(null);
+
+        // Add timeout to prevent hanging requests
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Request timeout')), 10000);
+        });
+
+        const balancePromise = Promise.all([
+          tokenContract.balanceOf(walletAddress),
+          tokenContract.decimals(),
+          tokenContract.symbol(),
+        ]);
+
+        const [balanceRaw, decimals, symbol] = (await Promise.race([
+          balancePromise,
+          timeoutPromise,
+        ])) as [bigint, number, string];
+
+        const formatted = ethers.formatUnits(balanceRaw, decimals);
+        setBalance({
+          formatted,
+          symbol,
+          raw: balanceRaw.toString(),
+        });
+      } catch (err) {
+        console.error(`Balance fetch attempt ${retryCount + 1} failed:`, err);
+
+        if (retryCount < maxRetries) {
+          // Retry with exponential backoff
+          setTimeout(() => {
+            fetchBalance(retryCount + 1);
+          }, retryDelay);
+          return;
+        }
+
+        // Preserve last known balance on error for silent updates
+        setBalanceError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        setBalanceLoading(false);
+        balanceLoadingRef.current = false;
+      }
+    },
+    [tokenContract, walletAddress]
+  );
 
   // Refresh balance function
   const refreshBalance = async () => {
@@ -201,8 +160,55 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
 
   // Trigger transaction refresh function
   const triggerTransactionRefresh = useCallback(() => {
-    setTransactionRefreshTrigger(prev => prev + 1);
+    setTransactionRefreshTrigger((prev) => prev + 1);
   }, []);
+
+  // Fetch transactions function
+  const refreshTransactions = useCallback(
+    async (isRefresh = false) => {
+      if (!walletAddress || !tokenAddress) {
+        setTransactionsLoading(false);
+        setTransactionsRefreshing(false);
+        return;
+      }
+
+      try {
+        if (isRefresh) {
+          setTransactionsRefreshing(true);
+        } else {
+          setTransactionsLoading(true);
+        }
+        setTransactionsError(null);
+
+        const response = await mezoApi.getTokenTransfers(walletAddress, tokenAddress);
+        const processedTxs = mezoApi.processTransactions(response.items, walletAddress);
+        processedTxs.sort((a: Transaction, b: Transaction) => b.blockNumber - a.blockNumber);
+        setTransactions(processedTxs);
+      } catch (err) {
+        console.error('Error fetching transactions:', err);
+        setTransactionsError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setTransactionsLoading(false);
+        setTransactionsRefreshing(false);
+      }
+    },
+    [walletAddress, tokenAddress]
+  );
+
+  // Initial transactions fetch
+  useEffect(() => {
+    refreshTransactions();
+  }, [refreshTransactions]);
+
+  // Refetch transactions when balance changes signal comes in
+  useEffect(() => {
+    if (transactionRefreshTrigger > 0 && walletAddress && tokenAddress) {
+      const timer = setTimeout(() => {
+        refreshTransactions(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [transactionRefreshTrigger, walletAddress, tokenAddress, refreshTransactions]);
 
   // Set up event listeners when contract is available
   useEffect(() => {
@@ -248,28 +254,31 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     walletAddress,
     tokenAddress,
     rpcUrl,
-    
+
     // Dynamic Wallet State
     isConnected,
     user,
-    
+
     // Actions
     setTokenAddress,
     setRpcUrl,
     refreshBalance,
     clearBalance,
     retryBalance,
-    
+
     // Transaction refresh
     transactionRefreshTrigger,
     triggerTransactionRefresh,
+
+    // Transactions
+    transactions,
+    transactionsLoading,
+    transactionsRefreshing,
+    transactionsError,
+    refreshTransactions,
   };
 
-  return (
-    <GlobalContext.Provider value={contextValue}>
-      {children}
-    </GlobalContext.Provider>
-  );
+  return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
 };
 
 // Custom hook to use the context
@@ -283,32 +292,33 @@ export const useGlobalContext = (): GlobalContextType => {
 
 // Specific hooks for balance management
 export const useTokenBalance = () => {
-  const { balance, balanceLoading, balanceError, refreshBalance, clearBalance, retryBalance } = useGlobalContext();
+  const { balance, balanceLoading, balanceError, refreshBalance, clearBalance, retryBalance } =
+    useGlobalContext();
   return { balance, balanceLoading, balanceError, refreshBalance, clearBalance, retryBalance };
 };
 
 export const useWallet = () => {
-  const { 
-    walletAddress, 
-    tokenAddress, 
-    rpcUrl, 
-    setTokenAddress, 
-    setRpcUrl, 
-    isConnected, 
+  const {
+    walletAddress,
+    tokenAddress,
+    rpcUrl,
+    setTokenAddress,
+    setRpcUrl,
+    isConnected,
     user,
     transactionRefreshTrigger,
-    triggerTransactionRefresh
+    triggerTransactionRefresh,
   } = useGlobalContext();
-  return { 
-    walletAddress, 
-    tokenAddress, 
-    rpcUrl, 
-    setTokenAddress, 
-    setRpcUrl, 
-    isConnected, 
+  return {
+    walletAddress,
+    tokenAddress,
+    rpcUrl,
+    setTokenAddress,
+    setRpcUrl,
+    isConnected,
     user,
     transactionRefreshTrigger,
-    triggerTransactionRefresh
+    triggerTransactionRefresh,
   };
 };
 

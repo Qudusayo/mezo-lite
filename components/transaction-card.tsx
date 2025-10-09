@@ -20,7 +20,7 @@ const TransactionCard = ({
   symbol: string;
 }) => {
   return (
-    <View className="mt-4 flex-row items-center justify-between gap-4">
+    <View className="my-2 flex-row items-center justify-between gap-4">
       <View
         className={cn(
           'size-12 flex-row items-center justify-center rounded-full',
