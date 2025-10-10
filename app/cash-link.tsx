@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import WithArrowBack from 'layout/WithArrowBack';
 import { InfoCircleIcon } from 'components/icons';
 import { Link } from 'expo-router';

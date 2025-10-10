@@ -23,6 +23,7 @@ const TokenTransactions = ({
       address={tx.isReceiving ? tx.from : tx.to}
       decimals={tx.tokenInfo.decimals}
       symbol={tx.tokenInfo.symbol}
+      transaction={tx}
     />
   );
 

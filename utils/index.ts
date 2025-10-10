@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 
 function formatDate(timestamp: number) {
   const timeStampToFormat = timestamp * 1000;
-  console.log('timestamp to format: ', timeStampToFormat);
   const currentTime = Date.now();
   const timeDiff = timeStampToFormat - currentTime;
   let absTimeDiff = Math.abs(timeDiff);

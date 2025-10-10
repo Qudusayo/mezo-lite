@@ -31,6 +31,7 @@ const History = () => {
             address={tx.isReceiving ? tx.from : tx.to}
             decimals={tx.tokenInfo.decimals}
             symbol={tx.tokenInfo.symbol}
+            transaction={tx}
           />
         )}
         ItemSeparatorComponent={() => <View className="my-0.5 h-px bg-gray-100" />}

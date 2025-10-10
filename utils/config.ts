@@ -1,5 +1,6 @@
 import { createClient } from '@dynamic-labs/client';
 import { ReactNativeExtension } from '@dynamic-labs/react-native-extension';
+import { ViemExtension } from "@dynamic-labs/viem-extension";
 import 'fast-text-encoding';
 
 const environmentId = process.env.EXPO_PUBLIC_ENVIRONMENT_ID as string;
@@ -34,5 +35,7 @@ export const dynamicClient = createClient({
   // Optional:
   appLogoUrl: 'https://demo.dynamic.xyz/favicon-32x32.png',
   appName: 'Mezo Lite',
-  
-}).extend(ReactNativeExtension());
+})
+  .extend(ReactNativeExtension())
+  // @ts-ignore
+  .extend(ViemExtension());

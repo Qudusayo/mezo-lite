@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { BackspaceIcon } from 'components/icons';
 import { cn } from 'utils';
 import WithArrowBack from 'layout/WithArrowBack';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTokenBalance } from 'context/global-context';
 
 export default function AmountInput() {
@@ -13,8 +13,6 @@ export default function AmountInput() {
   const localSearchParams = useLocalSearchParams();
 
   const cashLink = localSearchParams.cashLink;
-
-  console.log('Is cash link:', cashLink);
 
   const handleNumberPress = async (num: string) => {
     // Trigger light haptic feedback
@@ -93,6 +91,10 @@ export default function AmountInput() {
     }
 
     console.log('Continue with amount:', amount);
+
+    if (cashLink) {
+      router.push('/confirm-cash-link?amount=' + amount);
+    }
   };
 
   const NumberButton = ({ value, onPress }: { value: string; onPress: () => void }) => (
@@ -154,7 +156,7 @@ export default function AmountInput() {
 
         {/* Continue Button */}
         <TouchableOpacity
-          className={`mx-10 items-center rounded-3xl py-4 ${
+          className={`items-center rounded-3xl py-4 ${
             amount === '0' ? 'bg-gray-100' : 'bg-primary'
           }`}
           onPress={handleContinue}

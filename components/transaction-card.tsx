@@ -1,8 +1,10 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { ArrowBigDownLinesIcon, ArrowBigUpLinesIcon } from './icons';
 import Shimmer from './shimmer';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
+import { useBottomSheetContext } from 'context/bottom-sheet';
+import { Transaction } from '../types';
 
 const TransactionCard = ({
   isReceiving,
@@ -11,6 +13,7 @@ const TransactionCard = ({
   address,
   decimals,
   symbol,
+  transaction,
 }: {
   isReceiving: boolean;
   amount: number;
@@ -18,9 +21,19 @@ const TransactionCard = ({
   address: string;
   decimals: number;
   symbol: string;
+  transaction: Transaction;
 }) => {
+  const { open } = useBottomSheetContext();
+
+  const handleOpenBottomSheet = () => {
+    open('transaction', { transaction });
+  };
+
   return (
-    <View className="my-2 flex-row items-center justify-between gap-4">
+    <TouchableOpacity
+      className="my-2 flex-row items-center justify-between gap-4"
+      onPress={handleOpenBottomSheet}
+      activeOpacity={0.8}>
       <View
         className={cn(
           'size-12 flex-row items-center justify-center rounded-full',
@@ -45,7 +58,7 @@ const TransactionCard = ({
           {isReceiving ? '+' : '-'}${Number(formatAmount(amount, decimals)).toFixed(2)}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

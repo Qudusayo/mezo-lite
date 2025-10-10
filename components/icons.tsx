@@ -254,6 +254,22 @@ const ScanIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const UnlinkIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M17 22v-2m-8-5 6-6m-4-3 .463-.536a5 5 0 0 1 7.071 7.072L18 13m-5 5-.397.534a5.07 5.07 0 0 1-7.127 0 4.97 4.97 0 0 1 0-7.071L6 11m14 6h2M2 7h2m3-5v2" />
+  </Svg>
+);
+
 const WalletIcon = (props: SvgProps) => (
   <Svg width={24} height={24} viewBox="0 0 512 512" fill="currentColor" {...props}>
     <Path d="M95.5 104h320a87.73 87.73 0 0111.18.71 66 66 0 00-77.51-55.56L86 94.08h-.3a66 66 0 00-41.07 26.13A87.57 87.57 0 0195.5 104zM415.5 128h-320a64.07 64.07 0 00-64 64v192a64.07 64.07 0 0064 64h320a64.07 64.07 0 0064-64V192a64.07 64.07 0 00-64-64zM368 320a32 32 0 1132-32 32 32 0 01-32 32z" />
@@ -299,4 +315,5 @@ export {
   GiftIcon,
   XIcon,
   ReloadIcon,
+  UnlinkIcon,
 };
