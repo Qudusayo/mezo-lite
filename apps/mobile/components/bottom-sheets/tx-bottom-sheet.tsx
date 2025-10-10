@@ -1,8 +1,9 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import React, { useMemo } from 'react';
-import { View, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useBottomSheetContext } from 'context/bottom-sheet';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
+import * as WebBrowser from 'expo-web-browser';
 
 const TransactionBottomSheet = () => {
   const { transactionBottomSheetRef, selectedTransaction } = useBottomSheetContext();
@@ -26,6 +27,10 @@ const TransactionBottomSheet = () => {
     return `https://explorer.test.mezo.org/tx/${selectedTransaction.hash}`;
   }, [selectedTransaction]);
 
+  const openInApp = async (url: string) => {
+    await WebBrowser.openBrowserAsync(url);
+  };
+
   return (
     <BottomSheet
       ref={transactionBottomSheetRef}
@@ -33,7 +38,7 @@ const TransactionBottomSheet = () => {
       index={-1}
       enablePanDownToClose
       backdropComponent={(props) => <BottomSheetBackdrop {...props} />}>
-      <BottomSheetView className="relative items-center p-5 pb-20 pt-9 gap-12">
+      <BottomSheetView className="relative items-center gap-12 p-5 pb-20 pt-9">
         {selectedTransaction ? (
           <>
             <View className="items-center gap-2">
@@ -52,12 +57,16 @@ const TransactionBottomSheet = () => {
               {selectedTransaction.isReceiving ? (
                 <View className="flex-row justify-between">
                   <Text className="text-gray-500">From</Text>
-                  <Text className="font-satoshiSemiBold">{formatAddress(selectedTransaction.from)}</Text>
+                  <Text className="font-satoshiSemiBold">
+                    {formatAddress(selectedTransaction.from)}
+                  </Text>
                 </View>
               ) : (
                 <View className="flex-row justify-between">
                   <Text className="text-gray-500">To</Text>
-                  <Text className="font-satoshiSemiBold">{formatAddress(selectedTransaction.to)}</Text>
+                  <Text className="font-satoshiSemiBold">
+                    {formatAddress(selectedTransaction.to)}
+                  </Text>
                 </View>
               )}
               <View className="flex-row justify-between">
@@ -70,7 +79,7 @@ const TransactionBottomSheet = () => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 className="w-full rounded-lg bg-primary p-4"
-                onPress={() => Linking.openURL(explorerUrl)}>
+                onPress={() => openInApp(explorerUrl)}>
                 <Text className="self-center font-satoshiMedium text-base">View on explorer</Text>
               </TouchableOpacity>
             )}
