@@ -90,8 +90,6 @@ export default function AmountInput() {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
-    console.log('Continue with amount:', amount);
-
     if (cashLink) {
       router.push('/confirm-cash-link?amount=' + amount);
     }

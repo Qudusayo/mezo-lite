@@ -14,7 +14,13 @@
     "prebuild": "turbo run prebuild",
     "prebuild-clean": "turbo run prebuild-clean",
     "dev": "turbo run dev",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "android": "expo run:android"
   },
-  "packageManager": "npm@10.8.2"
+  "packageManager": "npm@10.8.2",
+  "dependencies": {
+    "expo": "~53.0.22",
+    "react": "19.0.0",
+    "react-native": "0.79.6"
+  }
 }

@@ -2,14 +2,16 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import WithArrowBack from 'layout/WithArrowBack';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 import { UnlinkIcon } from 'components/icons';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
 import { dynamicClient } from 'utils/config';
-import { parseAbi, defineChain, encodeFunctionData } from 'viem';
+import { defineChain, encodeFunctionData, Abi, maxUint256, parseUnits } from 'viem';
 import { CASHLINK_ESCROW_ABI, ERC20_ABI } from 'utils/abi';
-import {} from 'viem';
+import { ethers, toUtf8Bytes, keccak256 } from 'ethers';
+import { CASHLINK_ESCROW_ADDRESS, MUSD_ADDRESS } from 'utils/constants';
+import { readContract, writeContract } from 'utils/contract-call';
 
 export const mezoTestnet = defineChain({
   id: 31611,
@@ -22,6 +24,7 @@ export const mezoTestnet = defineChain({
   rpcUrls: {
     default: {
       http: ['https://rpc.test.mezo.org'],
+      webSocket: ['wss://mezo-testnet.drpc.org'],
     },
   },
 });
@@ -44,48 +47,67 @@ export default function ConfirmCashLink() {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
+    const primaryWallet = wallets.primary;
+    if (!primaryWallet) return;
+
+    const publicClient = viem.createPublicClient({
+      chain: mezoTestnet,
+    });
+
+    const walletClient = await viem.createWalletClient({
+      chain: mezoTestnet,
+      wallet: primaryWallet,
+    });
+
+    if (!walletClient || !publicClient) return;
+
+    const allowance = (await readContract(publicClient, {
+      address: MUSD_ADDRESS,
+      abi: ERC20_ABI as Abi,
+      functionName: 'allowance',
+      args: [walletClient.account.address, CASHLINK_ESCROW_ADDRESS],
+    })) as bigint;
+
+    if (allowance < BigInt(parseUnits(cashAmount.toString(), 18))) {
+      // Approve unlimited allowance
+      await writeContract(publicClient, walletClient, {
+        account: walletClient.account,
+        to: MUSD_ADDRESS,
+        chain: mezoTestnet,
+        data: encodeFunctionData({
+          abi: ERC20_ABI as Abi,
+          functionName: 'approve',
+          args: [CASHLINK_ESCROW_ADDRESS, maxUint256],
+        }),
+      });
+    }
+
     // Generate a random claim code
     const randomBytes = Crypto.getRandomValues(new Uint8Array(16));
     const claimCode = Buffer.from(randomBytes).toString('hex');
+    const claimHash = keccak256(toUtf8Bytes(claimCode));
 
-    const contractAddress = '0xD60e914Ff6f3E86B3ACf060AF98152E38702fCcC';
-    const walletClient = await viem.createWalletClient({ wallet, chain: mezoTestnet });
+    console.log(
+      `==========================================
+CLAIM CODE: ${claimCode}
+CLAIM HASH: ${claimHash}
+==========================================`
+    );
 
-    console.log('WALLET CLIENT: ', walletClient);
-
-    const data = encodeFunctionData({
-      abi: parseAbi(JSON.parse(ERC20_ABI)),
-      functionName: 'allowance',
-      args: [contractAddress, wallet.address],
+    const createCashlinkReceipt = await writeContract(publicClient, walletClient, {
+      account: walletClient.account,
+      to: CASHLINK_ESCROW_ADDRESS,
+      chain: mezoTestnet,
+      data: encodeFunctionData({
+        abi: CASHLINK_ESCROW_ABI,
+        functionName: 'createCashlink',
+        args: [BigInt(ethers.parseEther(cashAmount.toString())), claimHash as `0x${string}`],
+      }),
     });
 
-    walletClient.sendTransaction({ to: contractAddress, data });
-
-    const hash2 = await walletClient.writeContractSync({
-      address: '0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503',
-      abi: parseAbi(JSON.parse(ERC20_ABI)),
-      functionName: 'allowance',
-      args: [contractAddress, wallet.address],
-    });
-
-    console.log('USER ALLOWANCE: ', hash2);
-
-    // const data = encodeFunctionData({
-    //   abi: parseAbi(JSON.parse(CASHLINK_ESCROW_ABI)),
-    //   functionName: 'createCashlink',
-    //   args: [cashAmount, claimCode],
-    // });
-
-    // const hash = await walletClient.sendTransaction({ to: contractAddress, data });
-
-    const hash = await walletClient.writeContractSync({
-      address: contractAddress,
-      abi: parseAbi(JSON.parse(CASHLINK_ESCROW_ABI)),
-      functionName: 'createCashlink',
-      args: [cashAmount, claimCode],
-    });
-
-    console.log('HASH: ', hash);
+    if (createCashlinkReceipt.status === 'success') {
+      return router.replace('/');
+    }
   };
 
   return (

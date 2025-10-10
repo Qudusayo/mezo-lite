@@ -1,4 +1,4 @@
-export const CASHLINK_ESCROW_ABI = JSON.stringify([
+export const CASHLINK_ESCROW_ABI = [
   {
     inputs: [
       {
@@ -159,9 +159,9 @@ export const CASHLINK_ESCROW_ABI = JSON.stringify([
     stateMutability: 'view',
     type: 'function',
   },
-]);
+];
 
-export const ERC20_ABI = JSON.stringify([
+export const ERC20_ABI = [
   {
     inputs: [
       {
@@ -210,4 +210,4 @@ export const ERC20_ABI = JSON.stringify([
     stateMutability: 'view',
     type: 'function',
   },
-]);
+];

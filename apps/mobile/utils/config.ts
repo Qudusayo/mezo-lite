@@ -1,6 +1,6 @@
 import { createClient } from '@dynamic-labs/client';
 import { ReactNativeExtension } from '@dynamic-labs/react-native-extension';
-import { ViemExtension } from "@dynamic-labs/viem-extension";
+import { ViemExtension } from '@dynamic-labs/viem-extension';
 import 'fast-text-encoding';
 
 const environmentId = process.env.EXPO_PUBLIC_ENVIRONMENT_ID as string;
@@ -24,7 +24,7 @@ const evmNetworks = [
     },
     networkId: 31611,
 
-    rpcUrls: ['https://mezo-testnet.drpc.org'],
+    rpcUrls: ['https://rpc.test.mezo.org'],
     vanityName: 'Mezo Testnet',
   },
 ];
@@ -37,5 +37,4 @@ export const dynamicClient = createClient({
   appName: 'Mezo Lite',
 })
   .extend(ReactNativeExtension())
-  // @ts-ignore
   .extend(ViemExtension());
