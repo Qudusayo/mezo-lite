@@ -13,7 +13,7 @@ const TransactionCard = ({
   address,
   decimals,
   symbol,
-  transaction,
+  transaction
 }: {
   isReceiving: boolean;
   amount: number;
@@ -33,12 +33,14 @@ const TransactionCard = ({
     <TouchableOpacity
       className="my-2 flex-row items-center justify-between gap-4"
       onPress={handleOpenBottomSheet}
-      activeOpacity={0.8}>
+      activeOpacity={0.8}
+    >
       <View
         className={cn(
           'size-12 flex-row items-center justify-center rounded-full',
           isReceiving ? 'bg-success/25' : 'bg-error/25'
-        )}>
+        )}
+      >
         {isReceiving ? (
           <ArrowBigDownLinesIcon color="#4CAF50" />
         ) : (
@@ -54,7 +56,8 @@ const TransactionCard = ({
           className={cn(
             'font-satoshiSemiBold text-lg',
             isReceiving ? 'text-success' : 'text-error'
-          )}>
+          )}
+        >
           {isReceiving ? '+' : '-'}${Number(formatAmount(amount, decimals)).toFixed(2)}
         </Text>
       </View>

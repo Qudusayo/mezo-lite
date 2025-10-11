@@ -27,7 +27,8 @@ export default function App() {
           <TouchableOpacity
             activeOpacity={0.8}
             className="w-min flex-row items-center gap-2 rounded-full bg-light p-1.5 pr-3"
-            onPress={() => dynamicClient.ui.auth.show()}>
+            onPress={() => dynamicClient.ui.auth.show()}
+          >
             <View className="size-9 rounded-full bg-white"></View>
             <Text className="font-satoshiSemiBold text-lg text-white">Welcome {username}!</Text>
           </TouchableOpacity>

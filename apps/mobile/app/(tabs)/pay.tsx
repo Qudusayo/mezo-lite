@@ -19,7 +19,8 @@ const Pay = () => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => router.push('/cash-link')}
-            className="flex-row items-center gap-4 bg-[#7978770c] p-4">
+            className="flex-row items-center gap-4 bg-[#7978770c] p-4"
+          >
             <LoacationDollarIcon color="black" width={24} height={24} />
             <View>
               <Text className="font-satoshiMedium text-xl">Shareable Cash Link</Text>

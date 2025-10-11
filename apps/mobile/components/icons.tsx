@@ -32,7 +32,8 @@ const ArrowLeftIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M5 12h14M5 12l6 6m-6-6 6-6" />
   </Svg>
@@ -48,7 +49,8 @@ const ArrowUpIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M12 5v14m6-8-6-6m-6 6 6-6" />
   </Svg>
@@ -64,7 +66,8 @@ const AtIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <Path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
     <Path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" />
@@ -81,7 +84,8 @@ const BackspaceIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M20 6a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5-5a1.5 1.5 0 0 1 0-2l5-5zm-8 4 4 4m0-4-4 4" />
   </Svg>
@@ -118,7 +122,8 @@ const InfoCircleIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0m9-3h.01" />
     <Path d="M11 12h1v4h1" />
@@ -135,7 +140,8 @@ const LinkIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="m9 15 6-6m-4-3 .463-.536a5 5 0 0 1 7.071 7.072L18 13m-5 5-.397.534a5.07 5.07 0 0 1-7.127 0 4.97 4.97 0 0 1 0-7.071L6 11" />
   </Svg>
@@ -151,7 +157,8 @@ const LoacationDollarIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M13.08 20.162 10 14l-7-3.5a.55.55 0 0 1 0-1L21 3l-2.55 7.063M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3H17m2 0v1m0-8v1" />
   </Svg>
@@ -167,7 +174,8 @@ const PhoneIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
   </Svg>
@@ -183,7 +191,8 @@ const PlusIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M12 5v14m-7-7h14" />
   </Svg>
@@ -199,7 +208,8 @@ const QrCodeIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M4 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm3 12v.01M14 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zM7 7v.01M4 15a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm13-8v.01M14 14h3m3 0v.01M14 14v3m0 3h3m0-3h3m0 0v3" />
   </Svg>
@@ -215,7 +225,8 @@ const ReloadIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M19.933 13.041a8 8 0 1 1-9.925-8.788c3.899-1 7.935 1.007 9.425 4.747" />
     <Path d="M20 4v5h-5" />
@@ -232,7 +243,8 @@ const RepeatIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M4 12V9a3 3 0 0 1 3-3h13m-3-3 3 3-3 3m3 3v3a3 3 0 0 1-3 3H4m3 3-3-3 3-3" />
   </Svg>
@@ -248,7 +260,8 @@ const ScanIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2m8-16h2a2 2 0 0 1 2 2v2m-4 12h2a2 2 0 0 0 2-2v-2" />
   </Svg>
@@ -264,7 +277,8 @@ const UnlinkIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M17 22v-2m-8-5 6-6m-4-3 .463-.536a5 5 0 0 1 7.071 7.072L18 13m-5 5-.397.534a5.07 5.07 0 0 1-7.127 0 4.97 4.97 0 0 1 0-7.071L6 11m14 6h2M2 7h2m3-5v2" />
   </Svg>
@@ -287,7 +301,8 @@ const XIcon = (props: SvgProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    {...props}>
+    {...props}
+  >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M18 6 6 18M6 6l12 12" />
   </Svg>
@@ -315,5 +330,5 @@ export {
   GiftIcon,
   XIcon,
   ReloadIcon,
-  UnlinkIcon,
+  UnlinkIcon
 };

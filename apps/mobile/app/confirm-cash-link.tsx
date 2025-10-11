@@ -19,14 +19,14 @@ export const mezoTestnet = defineChain({
   nativeCurrency: {
     decimals: 18,
     name: 'Bitcoin',
-    symbol: 'BTC',
+    symbol: 'BTC'
   },
   rpcUrls: {
     default: {
       http: ['https://rpc.test.mezo.org'],
-      webSocket: ['wss://mezo-testnet.drpc.org'],
-    },
-  },
+      webSocket: ['wss://mezo-testnet.drpc.org']
+    }
+  }
 });
 
 export default function ConfirmCashLink() {
@@ -51,12 +51,12 @@ export default function ConfirmCashLink() {
     if (!primaryWallet) return;
 
     const publicClient = viem.createPublicClient({
-      chain: mezoTestnet,
+      chain: mezoTestnet
     });
 
     const walletClient = await viem.createWalletClient({
       chain: mezoTestnet,
-      wallet: primaryWallet,
+      wallet: primaryWallet
     });
 
     if (!walletClient || !publicClient) return;
@@ -65,7 +65,7 @@ export default function ConfirmCashLink() {
       address: MUSD_ADDRESS,
       abi: ERC20_ABI as Abi,
       functionName: 'allowance',
-      args: [walletClient.account.address, CASHLINK_ESCROW_ADDRESS],
+      args: [walletClient.account.address, CASHLINK_ESCROW_ADDRESS]
     })) as bigint;
 
     if (allowance < BigInt(parseUnits(cashAmount.toString(), 18))) {
@@ -77,8 +77,8 @@ export default function ConfirmCashLink() {
         data: encodeFunctionData({
           abi: ERC20_ABI as Abi,
           functionName: 'approve',
-          args: [CASHLINK_ESCROW_ADDRESS, maxUint256],
-        }),
+          args: [CASHLINK_ESCROW_ADDRESS, maxUint256]
+        })
       });
     }
 
@@ -101,8 +101,8 @@ CLAIM HASH: ${claimHash}
       data: encodeFunctionData({
         abi: CASHLINK_ESCROW_ABI,
         functionName: 'createCashlink',
-        args: [BigInt(ethers.parseEther(cashAmount.toString())), claimHash as `0x${string}`],
-      }),
+        args: [BigInt(ethers.parseEther(cashAmount.toString())), claimHash as `0x${string}`]
+      })
     });
 
     if (createCashlinkReceipt.status === 'success') {
@@ -148,7 +148,8 @@ CLAIM HASH: ${claimHash}
           <TouchableOpacity
             className="items-center rounded-3xl bg-primary py-4"
             onPress={handleSend}
-            activeOpacity={0.8}>
+            activeOpacity={0.8}
+          >
             <Text className="font-satoshiMedium text-lg text-black">Send</Text>
           </TouchableOpacity>
         </View>

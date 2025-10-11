@@ -6,7 +6,7 @@ import { Transaction } from '../types';
 
 const TokenTransactions = ({
   containerClassName,
-  headerText,
+  headerText
 }: {
   containerClassName?: string;
   headerText?: string;

@@ -7,7 +7,7 @@ import { cn } from 'utils';
 
 export default function WithArrowBack({
   children,
-  className,
+  className
 }: {
   children: React.ReactNode;
   className?: string;

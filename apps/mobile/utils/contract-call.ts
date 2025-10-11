@@ -2,7 +2,7 @@ import {
   PrepareTransactionRequestParameters,
   PublicClient,
   ReadContractParameters,
-  WalletClient,
+  WalletClient
 } from 'viem';
 
 async function readContract(

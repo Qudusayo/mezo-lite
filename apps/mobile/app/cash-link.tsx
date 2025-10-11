@@ -48,7 +48,7 @@ const CashLinkStep = ({
   step,
   title,
   description,
-  isLast = false,
+  isLast = false
 }: {
   step: number;
   title: string;

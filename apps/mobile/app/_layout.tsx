@@ -11,17 +11,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 SplashScreen.setOptions({
   duration: 1000,
-  fade: true,
+  fade: true
 });
 
 SplashScreen.preventAutoHideAsync();
 
 const Layout = () => {
-  const { sdk, auth } = useReactiveClient(dynamicClient);
+  const { sdk, auth, wallets } = useReactiveClient(dynamicClient);
 
   useEffect(() => {
     if (sdk.loaded) {
-      console.log('USER AUTH', auth.token);
+      console.log('USER AUTH', auth.token?.slice(0, 50));
       // auth.refreshUser()
       SplashScreen.hideAsync();
     }
@@ -32,31 +32,41 @@ const Layout = () => {
     // auth.on('authSuccess', handleAuthSuccess);
     auth.on('loggedOut', handleLoggedOut);
 
+    auth.once('authInit', () => {
+      console.log(`
+==========================================
+AUTH INIT
+==========================================
+        `);
+    });
+
     return () => {
       // auth.off('authSuccess', handleAuthSuccess);
       auth.off('loggedOut', handleLoggedOut);
     };
-  }, [sdk.loaded]);
+  }, [sdk.loaded, auth]);
 
   return (
-    <BottomSheetProvider>
-      <GestureHandlerRootView className="flex-2">
-        <GlobalProvider>
-          <dynamicClient.reactNative.WebView />
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Protected guard={!!auth.authenticatedUser}>
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="qr" />
-              <Stack.Screen name="scan" />
-            </Stack.Protected>
-            <Stack.Protected guard={!auth.authenticatedUser}>
-              <Stack.Screen name="login" />
-            </Stack.Protected>
-          </Stack>
-        </GlobalProvider>
-        <TransactionBottomSheet />
-      </GestureHandlerRootView>
-    </BottomSheetProvider>
+    <>
+      <dynamicClient.reactNative.WebView />
+      <BottomSheetProvider>
+        <GestureHandlerRootView className="flex-2">
+          <GlobalProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Protected guard={!!wallets.primary}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="qr" />
+                <Stack.Screen name="scan" />
+              </Stack.Protected>
+              <Stack.Protected guard={!wallets.primary}>
+                <Stack.Screen name="login" />
+              </Stack.Protected>
+            </Stack>
+          </GlobalProvider>
+          <TransactionBottomSheet />
+        </GestureHandlerRootView>
+      </BottomSheetProvider>
+    </>
   );
 };
 

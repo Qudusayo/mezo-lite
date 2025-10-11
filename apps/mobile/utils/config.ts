@@ -20,13 +20,13 @@ const evmNetworks = [
       decimals: 18,
       name: 'Bitcoin',
       symbol: 'BTC',
-      iconUrl: 'https://icons.llamao.fi/icons/chains/rsz_mezo.jpg',
+      iconUrl: 'https://icons.llamao.fi/icons/chains/rsz_mezo.jpg'
     },
     networkId: 31611,
 
     rpcUrls: ['https://rpc.test.mezo.org'],
-    vanityName: 'Mezo Testnet',
-  },
+    vanityName: 'Mezo Testnet'
+  }
 ];
 
 export const dynamicClient = createClient({
@@ -34,7 +34,7 @@ export const dynamicClient = createClient({
   evmNetworks,
   // Optional:
   appLogoUrl: 'https://demo.dynamic.xyz/favicon-32x32.png',
-  appName: 'Mezo Lite',
+  appName: 'Mezo Lite'
 })
   .extend(ReactNativeExtension())
   .extend(ViemExtension());

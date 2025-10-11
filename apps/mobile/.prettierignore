@@ -1,0 +1,46 @@
+# Node & package manager files
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build & output directories
+dist
+build
+android
+ios
+.expo
+.expo-shared
+web-build
+
+# Logs
+*.log
+
+# Coverage / testing
+coverage
+*.test.js
+*.spec.js
+jest.config.js
+
+# Environment files
+.env
+.env.*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE & system files
+.vscode
+.idea
+.DS_Store
+
+# Metro / Babel cache
+.expo/*
+.expo-shared/*
+.expo/*
+.expo/*
+.expo-shared/*
+.expo-shared/assets.json
+
+# Generated assets
+assets/generated/*

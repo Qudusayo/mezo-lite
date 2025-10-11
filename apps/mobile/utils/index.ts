@@ -19,7 +19,7 @@ function formatDate(timestamp: number) {
     { unit: 'day', divisor: 86400000 },
     { unit: 'hour', divisor: 3600000 },
     { unit: 'minute', divisor: 60000 },
-    { unit: 'second', divisor: 1000 },
+    { unit: 'second', divisor: 1000 }
   ];
 
   for (const unitInfo of timeUnits) {
@@ -42,15 +42,16 @@ const formatAddress = (address: string) => {
 const formatAmount = (value: string | number, decimals: number) => {
   // Handle both string and number inputs, convert scientific notation properly
   let numericValue: string;
-  
+
   if (typeof value === 'number') {
     // For very large numbers, use BigInt to avoid scientific notation
-    numericValue = value > Number.MAX_SAFE_INTEGER ? BigInt(Math.floor(value)).toString() : value.toString();
+    numericValue =
+      value > Number.MAX_SAFE_INTEGER ? BigInt(Math.floor(value)).toString() : value.toString();
   } else {
     // Convert scientific notation to proper string if needed
     numericValue = value.includes('e') ? Number(value).toString() : value;
   }
-  
+
   return ethers.formatUnits(numericValue || '0', decimals);
 };
 

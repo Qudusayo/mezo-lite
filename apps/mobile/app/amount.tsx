@@ -99,7 +99,8 @@ export default function AmountInput() {
     <TouchableOpacity
       className="h-20 w-20 items-center justify-center"
       onPress={onPress}
-      activeOpacity={0.6}>
+      activeOpacity={0.6}
+    >
       <Text className="font-satoshiSemiBold text-4xl text-black">{value}</Text>
     </TouchableOpacity>
   );
@@ -118,7 +119,8 @@ export default function AmountInput() {
             className={cn(
               'mb-8 text-center font-satoshiSemiBold text-6xl',
               amount === '0' ? 'text-gray-300' : 'text-black'
-            )}>
+            )}
+          >
             ${amount}
           </Text>
 
@@ -145,7 +147,8 @@ export default function AmountInput() {
               <TouchableOpacity
                 className="h-20 w-20 items-center justify-center"
                 onPress={handleDelete}
-                activeOpacity={0.6}>
+                activeOpacity={0.6}
+              >
                 <BackspaceIcon color="black" width={36} height={36} />
               </TouchableOpacity>
             </View>
@@ -159,12 +162,14 @@ export default function AmountInput() {
           }`}
           onPress={handleContinue}
           disabled={amount === '0'}
-          activeOpacity={0.8}>
+          activeOpacity={0.8}
+        >
           <Text
             className={cn(
               'font-satoshiMedium text-lg',
               amount === '0' ? 'text-gray-300' : 'text-black'
-            )}>
+            )}
+          >
             Continue
           </Text>
         </TouchableOpacity>

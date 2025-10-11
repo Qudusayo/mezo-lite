@@ -23,14 +23,18 @@ export const Overlay = () => {
   const router = useRouter();
 
   return (
-    <View style={Platform.OS === 'android' ? { flex: 1 } : StyleSheet.absoluteFillObject} pointerEvents="box-none">
+    <View
+      style={Platform.OS === 'android' ? { flex: 1 } : StyleSheet.absoluteFillObject}
+      pointerEvents="box-none"
+    >
       <Canvas style={StyleSheet.absoluteFillObject} pointerEvents="none">
         <DiffRect inner={inner} outer={outer} color="black" opacity={0.5} />
       </Canvas>
       <Pressable
         accessibilityRole="button"
         onPress={() => router.back()}
-        className="absolute right-5 top-5 size-11 items-center justify-center rounded-full bg-white shadow">
+        className="absolute right-5 top-5 size-11 items-center justify-center rounded-full bg-white shadow"
+      >
         <XIcon color="#111827" width={20} height={20} />
       </Pressable>
     </View>

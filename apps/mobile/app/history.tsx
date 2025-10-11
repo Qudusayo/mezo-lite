@@ -10,7 +10,7 @@ const History = () => {
     transactionsLoading,
     transactionsRefreshing,
     transactionsError,
-    refreshTransactions,
+    refreshTransactions
   } = useGlobalContext();
   const listData = useMemo(() => transactions, [transactions]);
 

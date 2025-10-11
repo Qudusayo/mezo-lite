@@ -37,7 +37,8 @@ const TransactionBottomSheet = () => {
       snapPoints={snapPoints}
       index={-1}
       enablePanDownToClose
-      backdropComponent={(props) => <BottomSheetBackdrop {...props} />}>
+      backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
+    >
       <BottomSheetView className="relative items-center gap-12 p-5 pb-20 pt-9">
         {selectedTransaction ? (
           <>
@@ -47,7 +48,8 @@ const TransactionBottomSheet = () => {
                 className={cn(
                   'font-satoshiSemiBold text-4xl',
                   selectedTransaction.isReceiving ? 'text-success' : 'text-error'
-                )}>
+                )}
+              >
                 {amountText}
               </Text>
               <Text className="">{formatDate(selectedTransaction.timestamp)}</Text>
@@ -79,7 +81,8 @@ const TransactionBottomSheet = () => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 className="w-full rounded-lg bg-primary p-4"
-                onPress={() => openInApp(explorerUrl)}>
+                onPress={() => openInApp(explorerUrl)}
+              >
                 <Text className="self-center font-satoshiMedium text-base">View on explorer</Text>
               </TouchableOpacity>
             )}

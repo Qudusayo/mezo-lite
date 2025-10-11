@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useCallback,
   useRef,
-  ReactNode,
+  ReactNode
 } from 'react';
 import { ethers } from 'ethers';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
@@ -24,7 +24,7 @@ interface GlobalProviderProps {
 
 export const GlobalProvider: React.FC<GlobalProviderProps> = ({
   children,
-  initialRpcUrl = 'https://rpc.test.mezo.org',
+  initialRpcUrl = 'https://rpc.test.mezo.org'
 }) => {
   // Dynamic wallet integration
   const { auth, wallets } = useReactiveClient(dynamicClient);
@@ -61,7 +61,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
         pollingInterval: 4000,
         batchMaxCount: 1,
         batchMaxSize: 1024,
-        batchStallTime: 100,
+        batchStallTime: 100
       });
 
       const contract = new ethers.Contract(
@@ -70,7 +70,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
           'function balanceOf(address) view returns (uint256)',
           'function decimals() view returns (uint8)',
           'function symbol() view returns (string)',
-          'event Transfer(address indexed from, address indexed to, uint256 value)',
+          'event Transfer(address indexed from, address indexed to, uint256 value)'
         ],
         provider
       );
@@ -105,19 +105,19 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
         const balancePromise = Promise.all([
           tokenContract.balanceOf(walletAddress),
           tokenContract.decimals(),
-          tokenContract.symbol(),
+          tokenContract.symbol()
         ]);
 
         const [balanceRaw, decimals, symbol] = (await Promise.race([
           balancePromise,
-          timeoutPromise,
+          timeoutPromise
         ])) as [bigint, number, string];
 
         const formatted = ethers.formatUnits(balanceRaw, decimals);
         setBalance({
           formatted,
           symbol,
-          raw: balanceRaw.toString(),
+          raw: balanceRaw.toString()
         });
       } catch (err) {
         console.error(`Balance fetch attempt ${retryCount + 1} failed:`, err);
@@ -275,7 +275,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     transactionsLoading,
     transactionsRefreshing,
     transactionsError,
-    refreshTransactions,
+    refreshTransactions
   };
 
   return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
@@ -294,7 +294,14 @@ export const useGlobalContext = (): GlobalContextType => {
 export const useTokenBalance = () => {
   const { balance, balanceLoading, balanceError, refreshBalance, clearBalance, retryBalance } =
     useGlobalContext();
-  return { balance, balanceLoading, balanceError, refreshBalance, clearBalance, retryBalance };
+  return {
+    balance,
+    balanceLoading,
+    balanceError,
+    refreshBalance,
+    clearBalance,
+    retryBalance
+  };
 };
 
 export const useWallet = () => {
@@ -307,7 +314,7 @@ export const useWallet = () => {
     isConnected,
     user,
     transactionRefreshTrigger,
-    triggerTransactionRefresh,
+    triggerTransactionRefresh
   } = useGlobalContext();
   return {
     walletAddress,
@@ -318,7 +325,7 @@ export const useWallet = () => {
     isConnected,
     user,
     transactionRefreshTrigger,
-    triggerTransactionRefresh,
+    triggerTransactionRefresh
   };
 };
 

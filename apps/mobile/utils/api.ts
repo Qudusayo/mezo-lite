@@ -1,6 +1,6 @@
 /**
  * API service for Mezo blockchain data
- * 
+ *
  * This service provides methods to fetch token transfers and other blockchain data
  * from the Mezo testnet explorer API.
  */
@@ -81,7 +81,7 @@ class MezoApiService {
     const params = new URLSearchParams({
       type: options.type || 'ERC-20',
       filter: options.filter || 'to | from',
-      token: tokenAddress,
+      token: tokenAddress
     });
 
     if (options.page) {
@@ -94,8 +94,8 @@ class MezoApiService {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'accept': 'application/json',
-        },
+          accept: 'application/json'
+        }
       });
 
       if (!response.ok) {
@@ -113,13 +113,10 @@ class MezoApiService {
   /**
    * Process raw API response into our internal transaction format
    */
-  processTransactions(
-    transfers: TokenTransfer[],
-    walletAddress: string
-  ): ProcessedTransaction[] {
+  processTransactions(transfers: TokenTransfer[], walletAddress: string): ProcessedTransaction[] {
     return transfers.map((transfer) => {
       const isReceiving = transfer.to.hash.toLowerCase() === walletAddress.toLowerCase();
-      
+
       return {
         hash: transfer.tx_hash,
         from: transfer.from.hash,
@@ -131,8 +128,8 @@ class MezoApiService {
         tokenInfo: {
           decimals: parseInt(transfer.token.decimals),
           symbol: transfer.token.symbol,
-          name: transfer.token.name,
-        },
+          name: transfer.token.name
+        }
       };
     });
   }

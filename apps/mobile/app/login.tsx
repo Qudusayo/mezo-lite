@@ -16,17 +16,20 @@ const Login = () => {
       />
       <Image
         source={require('../assets/splash.png')}
-        className="absolute bottom-0 left-0 w-screen h-screen -z-10"
+        className="absolute bottom-0 left-0 -z-10 h-screen w-screen"
       />
       <View>
         <Text className="font-satoshiSemiBold text-4xl capitalize text-white">Your ultimate</Text>
-        <Text className="font-satoshiSemiBold text-4xl capitalize text-white">Financial partner</Text>
+        <Text className="font-satoshiSemiBold text-4xl capitalize text-white">
+          Financial partner
+        </Text>
       </View>
       <Text className="font-satoshi text-xl text-white">Your complete all-in-one solution.</Text>
       <TouchableOpacity
         className="mx-auto w-full rounded-xl bg-white p-3"
-        onPress={() => dynamicClient.ui.auth.show()}>
-        <Text className="font-satoshiMedium text-center text-lg text-black">Get Started</Text>
+        onPress={() => dynamicClient.ui.auth.show()}
+      >
+        <Text className="text-center font-satoshiMedium text-lg text-black">Get Started</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

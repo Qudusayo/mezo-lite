@@ -21,14 +21,15 @@ const Qr = () => {
         <View className="mt-2 flex-1 items-center justify-center gap-4">
           <View
             style={{
-              height: SIZE + 45,
-            }}>
+              height: SIZE + 45
+            }}
+          >
             <QrCodeSvg
               style={{
                 padding: 10,
                 borderRadius: 20,
                 backgroundColor: '#FFBB00',
-                borderWidth: 8,
+                borderWidth: 8
               }}
               value={user?.phoneNumber || ''}
               frameSize={SIZE}
@@ -42,13 +43,13 @@ const Qr = () => {
                     height: 65,
                     alignSelf: 'center',
                     marginTop: -5,
-                    marginLeft: -5,
+                    marginLeft: -5
                   }}
                 />
               }
             />
           </View>
-          <Text className="font-satoshiMedium mb-4 text-2xl tracking-widest">
+          <Text className="mb-4 font-satoshiMedium text-2xl tracking-widest">
             {user?.phoneNumber}
           </Text>
           <View className="w-9/12 flex-row gap-4">
@@ -63,8 +64,8 @@ const Qr = () => {
 
 const ControlButton = ({ children }: { children: React.ReactNode }) => {
   return (
-    <TouchableOpacity className="bg-light flex-1 rounded-xl p-3" activeOpacity={0.8}>
-      <Text className="font-satoshiMedium text-center text-base uppercase">{children}</Text>
+    <TouchableOpacity className="flex-1 rounded-xl bg-light p-3" activeOpacity={0.8}>
+      <Text className="text-center font-satoshiMedium text-base uppercase">{children}</Text>
     </TouchableOpacity>
   );
 };

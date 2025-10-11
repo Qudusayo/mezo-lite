@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 const Shimmer = ({
   width,
   height,
-  radius = 8,
+  radius = 8
 }: {
   width: number | string;
   height: number;
@@ -20,7 +20,7 @@ const Shimmer = ({
       Animated.timing(translateX, {
         toValue: numericWidth,
         duration: 1000,
-        useNativeDriver: true,
+        useNativeDriver: true
       })
     ).start();
   }, [translateX, numericWidth]);
@@ -32,13 +32,15 @@ const Shimmer = ({
         height,
         borderRadius: radius,
         overflow: 'hidden',
-        backgroundColor: '#E5E7EB',
-      }}>
+        backgroundColor: '#E5E7EB'
+      }}
+    >
       <Animated.View
         style={{
           ...StyleSheet.absoluteFillObject,
-          transform: [{ translateX }],
-        }}>
+          transform: [{ translateX }]
+        }}
+      >
         <LinearGradient
           colors={['#E5E7EB00', '#F3F4F6', '#E5E7EB00']}
           start={{ x: 0, y: 0.5 }}

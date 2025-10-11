@@ -51,8 +51,9 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setActiveResultId,
         transactionBottomSheetRef,
         selectedTransaction,
-        setSelectedTransaction,
-      }}>
+        setSelectedTransaction
+      }}
+    >
       {children}
     </BottomSheetContext.Provider>
   );
