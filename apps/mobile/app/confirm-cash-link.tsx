@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import WithArrowBack from 'layout/WithArrowBack';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -32,14 +32,20 @@ export const mezoTestnet = defineChain({
 export default function ConfirmCashLink() {
   const localSearchParams = useLocalSearchParams();
   const { wallets, viem } = useReactiveClient(dynamicClient);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
 
   const cashAmount = localSearchParams.amount;
 
   const handleSend = async () => {
-    const wallet = wallets.primary;
-    if (!wallet) {
-      return;
-    }
+    try {
+      const wallet = wallets.primary;
+      if (!wallet || isLoading) {
+        return;
+      }
+
+      setIsLoading(true);
+      setLoadingMessage('Preparing transaction...');
 
     if (Platform.OS === 'ios') {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -48,7 +54,12 @@ export default function ConfirmCashLink() {
     }
 
     const primaryWallet = wallets.primary;
-    if (!primaryWallet) return;
+    if (!primaryWallet) {
+      setIsLoading(false);
+      return;
+    }
+
+    setLoadingMessage('Connecting to wallet...');
 
     const publicClient = viem.createPublicClient({
       chain: mezoTestnet
@@ -59,7 +70,12 @@ export default function ConfirmCashLink() {
       wallet: primaryWallet
     });
 
-    if (!walletClient || !publicClient) return;
+    if (!walletClient || !publicClient) {
+      setIsLoading(false);
+      return;
+    }
+
+    setLoadingMessage('Checking token allowance...');
 
     const allowance = (await readContract(publicClient, {
       address: MUSD_ADDRESS,
@@ -69,6 +85,7 @@ export default function ConfirmCashLink() {
     })) as bigint;
 
     if (allowance < BigInt(parseUnits(cashAmount.toString(), 18))) {
+      setLoadingMessage('Approving token spending...');
       // Approve unlimited allowance
       await writeContract(publicClient, walletClient, {
         account: walletClient.account,
@@ -81,6 +98,8 @@ export default function ConfirmCashLink() {
         })
       });
     }
+
+    setLoadingMessage('Creating cash link...');
 
     // Generate a random claim code
     const randomBytes = Crypto.getRandomValues(new Uint8Array(16));
@@ -106,7 +125,18 @@ CLAIM HASH: ${claimHash}
     });
 
     if (createCashlinkReceipt.status === 'success') {
-      return router.replace('/');
+      setLoadingMessage('Transaction successful!');
+      setTimeout(() => {
+        router.replace('/');
+      }, 1000);
+    } else {
+      setIsLoading(false);
+      setLoadingMessage('');
+    }
+    } catch (error) {
+      console.error('Transaction failed:', error);
+      setIsLoading(false);
+      setLoadingMessage('');
     }
   };
 
@@ -146,11 +176,23 @@ CLAIM HASH: ${claimHash}
             </Text>
           </View>
           <TouchableOpacity
-            className="items-center rounded-3xl bg-primary py-4"
+            className={`items-center rounded-3xl py-4 ${
+              isLoading ? 'bg-gray-400' : 'bg-primary'
+            }`}
             onPress={handleSend}
             activeOpacity={0.8}
+            disabled={isLoading}
           >
-            <Text className="font-satoshiMedium text-lg text-black">Send</Text>
+            {isLoading ? (
+              <View className="flex-row items-center gap-3">
+                <ActivityIndicator size="small" color="black" />
+                <Text className="font-satoshiMedium text-lg text-black">
+                  {loadingMessage}
+                </Text>
+              </View>
+            ) : (
+              <Text className="font-satoshiMedium text-lg text-black">Send</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

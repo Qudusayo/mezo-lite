@@ -3,10 +3,19 @@ import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useBottomSheetContext } from 'context/bottom-sheet';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
+import { CASHLINK_ESCROW_ADDRESS } from 'utils/constants';
 import * as WebBrowser from 'expo-web-browser';
 
 const TransactionBottomSheet = () => {
   const { transactionBottomSheetRef, selectedTransaction } = useBottomSheetContext();
+
+  const isCashLink = useMemo(() => {
+    if (!selectedTransaction) return false;
+    return (
+      selectedTransaction.from.toLowerCase() === CASHLINK_ESCROW_ADDRESS.toLowerCase() ||
+      selectedTransaction.to.toLowerCase() === CASHLINK_ESCROW_ADDRESS.toLowerCase()
+    );
+  }, [selectedTransaction]);
 
   const snapPoints = useMemo(() => [1, '55%'], []);
 
@@ -60,14 +69,14 @@ const TransactionBottomSheet = () => {
                 <View className="flex-row justify-between">
                   <Text className="text-gray-500">From</Text>
                   <Text className="font-satoshiSemiBold">
-                    {formatAddress(selectedTransaction.from)}
+                    {isCashLink ? 'CASH LINK' : formatAddress(selectedTransaction.from)}
                   </Text>
                 </View>
               ) : (
                 <View className="flex-row justify-between">
                   <Text className="text-gray-500">To</Text>
                   <Text className="font-satoshiSemiBold">
-                    {formatAddress(selectedTransaction.to)}
+                    {isCashLink ? 'CASH LINK' : formatAddress(selectedTransaction.to)}
                   </Text>
                 </View>
               )}

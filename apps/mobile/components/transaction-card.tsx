@@ -1,10 +1,11 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { ArrowBigDownLinesIcon, ArrowBigUpLinesIcon } from './icons';
+import { ArrowBigDownLinesIcon, ArrowBigUpLinesIcon, ReceiptDollarIcon } from './icons';
 import Shimmer from './shimmer';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
 import { useBottomSheetContext } from 'context/bottom-sheet';
 import { Transaction } from '../types';
+import { CASHLINK_ESCROW_ADDRESS } from 'utils/constants';
 
 const TransactionCard = ({
   isReceiving,
@@ -24,6 +25,7 @@ const TransactionCard = ({
   transaction: Transaction;
 }) => {
   const { open } = useBottomSheetContext();
+  const isCashLink = address.toLowerCase() === CASHLINK_ESCROW_ADDRESS.toLowerCase();
 
   const handleOpenBottomSheet = () => {
     open('transaction', { transaction });
@@ -41,14 +43,22 @@ const TransactionCard = ({
           isReceiving ? 'bg-success/25' : 'bg-error/25'
         )}
       >
-        {isReceiving ? (
+        {isCashLink ? (
+          <ReceiptDollarIcon color={isReceiving ? '#4CAF50' : '#F44336'} />
+        ) : isReceiving ? (
           <ArrowBigDownLinesIcon color="#4CAF50" />
         ) : (
           <ArrowBigUpLinesIcon color="#F44336" />
         )}
       </View>
       <View className="flex-1">
-        <Text className="font-satoshiSemiBold text-lg">{formatAddress(address)}</Text>
+        <Text className="font-satoshiSemiBold text-lg">
+          {isCashLink
+            ? isReceiving
+              ? 'Claimed Cash Link'
+              : 'Sent Cash Link'
+            : formatAddress(address)}
+        </Text>
         <Text className="-top-1 font-satoshi text-sm text-gray-400">{formatDate(timestamp)}</Text>
       </View>
       <View>
