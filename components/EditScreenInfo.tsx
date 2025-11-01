@@ -25,5 +25,5 @@ const styles = {
   helpContainer: `items-center mx-5 mt-4`,
   helpLink: `py-4`,
   helpLinkText: `text-center`,
-  homeScreenFilename: `my-2`,
+  homeScreenFilename: `my-2`
 };
