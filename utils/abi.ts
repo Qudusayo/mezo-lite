@@ -4,11 +4,11 @@ export const CASHLINK_ESCROW_ABI = [
       {
         internalType: 'address',
         name: '_token',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     stateMutability: 'nonpayable',
-    type: 'constructor'
+    type: 'constructor',
   },
   {
     anonymous: false,
@@ -17,17 +17,17 @@ export const CASHLINK_ESCROW_ABI = [
         indexed: true,
         internalType: 'bytes32',
         name: 'hash',
-        type: 'bytes32'
+        type: 'bytes32',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'claimer',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     name: 'CashlinkClaimed',
-    type: 'event'
+    type: 'event',
   },
   {
     anonymous: false,
@@ -36,23 +36,23 @@ export const CASHLINK_ESCROW_ABI = [
         indexed: true,
         internalType: 'bytes32',
         name: 'hash',
-        type: 'bytes32'
+        type: 'bytes32',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'creator',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: false,
         internalType: 'uint256',
         name: 'amount',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'CashlinkCreated',
-    type: 'event'
+    type: 'event',
   },
   {
     anonymous: false,
@@ -61,90 +61,90 @@ export const CASHLINK_ESCROW_ABI = [
         indexed: true,
         internalType: 'bytes32',
         name: 'hash',
-        type: 'bytes32'
+        type: 'bytes32',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'creator',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     name: 'CashlinkRevoked',
-    type: 'event'
+    type: 'event',
   },
   {
     inputs: [
       {
         internalType: 'string',
         name: 'claimCode',
-        type: 'string'
-      }
+        type: 'string',
+      },
     ],
     name: 'claim',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'uint256',
         name: 'amount',
-        type: 'uint256'
+        type: 'uint256',
       },
       {
         internalType: 'bytes32',
         name: 'claimHash',
-        type: 'bytes32'
-      }
+        type: 'bytes32',
+      },
     ],
     name: 'createCashlink',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'bytes32',
         name: 'claimHash',
-        type: 'bytes32'
-      }
+        type: 'bytes32',
+      },
     ],
     name: 'revoke',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'bytes32',
         name: '',
-        type: 'bytes32'
-      }
+        type: 'bytes32',
+      },
     ],
     name: 'cashlinks',
     outputs: [
       {
         internalType: 'address',
         name: 'creator',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'uint256',
         name: 'amount',
-        type: 'uint256'
+        type: 'uint256',
       },
       {
         internalType: 'bool',
         name: 'claimed',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [],
@@ -153,12 +153,12 @@ export const CASHLINK_ESCROW_ABI = [
       {
         internalType: 'contract IERC20',
         name: '',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
-  }
+    type: 'function',
+  },
 ];
 
 export const ERC20_ABI = [
@@ -167,47 +167,138 @@ export const ERC20_ABI = [
       {
         internalType: 'address',
         name: 'spender',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'uint256',
         name: 'value',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'approve',
     outputs: [
       {
         internalType: 'bool',
         name: '',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'owner',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'address',
         name: 'spender',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     name: 'allowance',
     outputs: [
       {
         internalType: 'uint256',
         name: '',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
-  }
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'owner',
+        type: 'address',
+      },
+    ],
+    name: 'nonces',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+];
+
+export const DONATION_ABI = [
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'beneficiaryId',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+    ],
+    name: 'donate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'beneficiaryId',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'deadline',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint8',
+        name: 'v',
+        type: 'uint8',
+      },
+      {
+        internalType: 'bytes32',
+        name: 'r',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: 's',
+        type: 'bytes32',
+      },
+    ],
+    name: 'donateWithPermit',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
 ];

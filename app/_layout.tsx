@@ -10,6 +10,7 @@ import TransactionBottomSheet from 'components/bottom-sheets/tx-bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { signInUser, signOutUser } from 'services/auth';
 import DepositOptionsBottomSheet from 'components/bottom-sheets/deposit-options-bottom-sheet';
+import DonationsBottomSheet from 'components/bottom-sheets/donations-bottom-sheet';
 
 SplashScreen.setOptions({
   duration: 1000,
@@ -70,6 +71,7 @@ const Layout = () => {
             </Stack>
             <TransactionBottomSheet />
             <DepositOptionsBottomSheet />
+            <DonationsBottomSheet />
           </GestureHandlerRootView>
         </BottomSheetProvider>
       </GlobalProvider>

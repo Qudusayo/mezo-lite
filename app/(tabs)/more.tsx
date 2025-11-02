@@ -3,8 +3,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DONATIONS } from 'utils/constants';
+import { useBottomSheetContext } from 'context/bottom-sheet';
+import type { Donation } from 'context/bottom-sheet';
 
 const More = () => {
+  const { open } = useBottomSheetContext();
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="mb-3 p-4 pb-0">
@@ -17,7 +21,9 @@ const More = () => {
             title={donation.name}
             description={donation.description}
             image={donation.image}
-            onPress={() => {}}
+            onPress={() => {
+              open('donations', { donation: donation as Donation });
+            }}
           />
         ))}
       </ScrollView>

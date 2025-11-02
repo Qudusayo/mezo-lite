@@ -33,6 +33,7 @@ export const DONATIONS = {
     name: 'Shefi',
     description: 'Support education and inclusion for women in Web3 and crypto',
     image: require('../assets/others/shefi.png'),
+    amounts: [5, 10, 20, 50],
     details: (
       <View className="flex-1">
         <Text className="mb-2 font-satoshiSemiBold text-2xl">Contribute to SheFi</Text>
