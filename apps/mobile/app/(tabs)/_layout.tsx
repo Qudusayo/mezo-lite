@@ -1,37 +1,30 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { BoltIcon, DiamondIcon, WalletIcon } from 'components/icons';
+import { NativeTabs, Icon, Label, Badge } from 'expo-router';
 
 const TabsLayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: '#ffbb00'
-      }}
-    >
-      <Tabs.Screen
-        name="index"
+    <NativeTabs backgroundColor="black">
+      <NativeTabs.Trigger name="index">
+        <Label>Wallet</Label>
+        <Icon sf="wallet.bifold.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="pay">
+        <Label>Pay</Label>
+        <Icon sf="bolt.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="save">
+        <Label>Save</Label>
+        <Icon sf="lock.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger
+        name="more"
         options={{
-          title: 'Wallet',
-          tabBarIcon: ({ color, size }) => <WalletIcon color={color} width={size} height={size} />
+          role: 'more'
         }}
-      />
-      <Tabs.Screen
-        name="pay"
-        options={{
-          title: 'Pay',
-          tabBarIcon: ({ color, size }) => <BoltIcon color={color} width={size} height={size} />
-        }}
-      />
-      <Tabs.Screen
-        name="save"
-        options={{
-          title: 'Save',
-          tabBarIcon: ({ color, size }) => <DiamondIcon color={color} width={size} height={size} />
-        }}
-      />
-    </Tabs>
+      >
+        <Label>More</Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 };
 

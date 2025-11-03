@@ -6,18 +6,15 @@
     "apps/*",
     "contracts"
   ],
-  "devDependencies": {
-    "turbo": "^2.0.0"
-  },
+  "devDependencies": {},
   "scripts": {
-    "ios": "turbo run ios",
-    "prebuild": "turbo run prebuild",
-    "prebuild-clean": "turbo run prebuild-clean",
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "android": "expo run:android"
+    "ios": "pnpm -r run ios",
+    "prebuild": "pnpm -r run prebuild",
+    "prebuild-clean": "pnpm -r run prebuild-clean",
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "android": "pnpm -r run android"
   },
-  "packageManager": "npm@10.8.2",
   "dependencies": {
     "expo": "~53.0.22",
     "react": "19.0.0",

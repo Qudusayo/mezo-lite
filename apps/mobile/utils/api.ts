@@ -99,6 +99,12 @@ class MezoApiService {
       });
 
       if (!response.ok) {
+        if (response.status === 404) {
+          return {
+            items: [],
+            next_page_params: null
+          };
+        }
         throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
 

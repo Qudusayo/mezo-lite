@@ -14,6 +14,11 @@ export default function AmountInput() {
 
   const cashLink = localSearchParams.cashLink;
 
+  const numericAmount = parseFloat(amount || '0');
+  const numericBalance = parseFloat(balance?.formatted ?? '0');
+  const isAmountZero = amount === '0';
+  const exceedsBalance = numericAmount > numericBalance;
+
   const handleNumberPress = async (num: string) => {
     // Trigger light haptic feedback
     if (Platform.OS === 'ios') {
@@ -157,17 +162,18 @@ export default function AmountInput() {
 
         {/* Continue Button */}
         <TouchableOpacity
-          className={`items-center rounded-3xl py-4 ${
-            amount === '0' ? 'bg-gray-100' : 'bg-primary'
-          }`}
+          className={cn(
+            'items-center rounded-3xl py-4',
+            isAmountZero || exceedsBalance ? 'bg-gray-100' : 'bg-primary'
+          )}
           onPress={handleContinue}
-          disabled={amount === '0'}
+          disabled={isAmountZero || exceedsBalance}
           activeOpacity={0.8}
         >
           <Text
             className={cn(
               'font-satoshiMedium text-lg',
-              amount === '0' ? 'text-gray-300' : 'text-black'
+              isAmountZero || exceedsBalance ? 'text-gray-300' : 'text-black'
             )}
           >
             Continue

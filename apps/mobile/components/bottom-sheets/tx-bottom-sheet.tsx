@@ -1,13 +1,16 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import React, { useMemo } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Clipboard, Share } from 'react-native';
 import { useBottomSheetContext } from 'context/bottom-sheet';
+import { useGlobalContext } from 'context/global-context';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
 import { CASHLINK_ESCROW_ADDRESS } from 'utils/constants';
 import * as WebBrowser from 'expo-web-browser';
+import { CopyIcon, ShareIcon } from 'components/icons';
 
 const TransactionBottomSheet = () => {
   const { transactionBottomSheetRef, selectedTransaction } = useBottomSheetContext();
+  const { cashlinks } = useGlobalContext();
 
   const isCashLink = useMemo(() => {
     if (!selectedTransaction) return false;
@@ -17,7 +20,28 @@ const TransactionBottomSheet = () => {
     );
   }, [selectedTransaction]);
 
-  const snapPoints = useMemo(() => [1, '55%'], []);
+  // Find the associated cashlink for this transaction
+  const associatedCashLink = useMemo(() => {
+    if (!selectedTransaction || !isCashLink) return null;
+    return cashlinks.find((cashlink) => cashlink.transactionHash === selectedTransaction.hash);
+  }, [selectedTransaction, cashlinks, isCashLink]);
+
+  // Check if this is a cashlink creation (user sending to contract)
+  const isCashLinkCreation = useMemo(() => {
+    if (!selectedTransaction) return false;
+    return (
+      !selectedTransaction.isReceiving &&
+      selectedTransaction.to.toLowerCase() === CASHLINK_ESCROW_ADDRESS.toLowerCase()
+    );
+  }, [selectedTransaction]);
+
+  const snapPoints = useMemo(() => {
+    // Increase height when showing cashlink code
+    if (isCashLinkCreation && associatedCashLink) {
+      return [1, '70%'];
+    }
+    return [1, '55%'];
+  }, [isCashLinkCreation, associatedCashLink]);
 
   const amountText = useMemo(() => {
     if (!selectedTransaction) return '';
@@ -38,6 +62,32 @@ const TransactionBottomSheet = () => {
 
   const openInApp = async (url: string) => {
     await WebBrowser.openBrowserAsync(url);
+  };
+
+  const copyCashLinkCode = async () => {
+    if (!associatedCashLink) return;
+
+    try {
+      Clipboard.setString(associatedCashLink.code);
+      Alert.alert('Copied!', 'CashLink code copied to clipboard');
+    } catch {
+      Alert.alert('Error', 'Failed to copy code to clipboard');
+    }
+  };
+
+  const shareCashLinkCode = async () => {
+    if (!associatedCashLink) return;
+
+    try {
+      const shareMessage = `Check out this CashLink: ${associatedCashLink.code}`;
+
+      await Share.share({
+        message: shareMessage,
+        title: 'CashLink'
+      });
+    } catch {
+      Alert.alert('Error', 'Failed to share CashLink');
+    }
   };
 
   return (
@@ -85,6 +135,36 @@ const TransactionBottomSheet = () => {
                 <Text className="font-satoshi">{formatAddress(selectedTransaction.hash)}</Text>
               </View>
             </View>
+
+            {/* CashLink Code Section - Show when user created a cashlink */}
+            {isCashLinkCreation && associatedCashLink && (
+              <View className="w-full gap-3">
+                <View className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <Text className="mb-2 font-satoshiSemiBold">
+                    Your CashLink Code
+                  </Text>
+                  <View className="flex-row items-center gap-3">
+                    <View className="flex-1 rounded-lg bg-white p-3">
+                      <Text
+                        className="text-center font-satoshiMedium text-base"
+                        numberOfLines={1}
+                        ellipsizeMode="middle"
+                      >
+                        { process.env.EXPO_PUBLIC_WEB_URI }/{associatedCashLink.code}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-4">
+                      <TouchableOpacity activeOpacity={0.8} onPress={copyCashLinkCode}>
+                        <CopyIcon color="black" width={24} height={24} />
+                      </TouchableOpacity>
+                      <TouchableOpacity activeOpacity={0.8} onPress={shareCashLinkCode}>
+                        <ShareIcon color="black" width={24} height={24} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            )}
 
             {!!explorerUrl && (
               <TouchableOpacity

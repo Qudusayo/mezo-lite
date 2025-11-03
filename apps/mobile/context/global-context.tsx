@@ -11,7 +11,8 @@ import { ethers } from 'ethers';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
 import { dynamicClient } from '../utils/config';
 import { mezoApi } from '../utils/api';
-import { GlobalContextType, TokenBalance, Transaction } from '../types';
+import { makeAuthenticatedRequest } from '../services/auth';
+import { GlobalContextType, TokenBalance, Transaction, CashLink } from '../types';
 
 // Create Context
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -46,6 +47,11 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
   const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
   const [transactionsRefreshing, setTransactionsRefreshing] = useState<boolean>(false);
   const [transactionsError, setTransactionsError] = useState<string | null>(null);
+
+  // CashLinks state
+  const [cashlinks, setCashlinks] = useState<CashLink[]>([]);
+  const [cashlinksLoading, setCashlinksLoading] = useState<boolean>(false);
+  const [cashlinksError, setCashlinksError] = useState<string | null>(null);
 
   // Auto-extract wallet address from Dynamic
   const walletAddress = wallets.primary?.address || null;
@@ -163,6 +169,53 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     setTransactionRefreshTrigger((prev) => prev + 1);
   }, []);
 
+  // CashLink management functions
+  const addCashLink = useCallback((cashlink: CashLink) => {
+    setCashlinks((prev) => [...prev, cashlink]);
+  }, []);
+
+  const updateCashLink = useCallback((transactionHash: string, updates: Partial<CashLink>) => {
+    setCashlinks((prev) =>
+      prev.map((cashlink) =>
+        cashlink.transactionHash === transactionHash ? { ...cashlink, ...updates } : cashlink
+      )
+    );
+  }, []);
+
+  // Fetch cashlinks from API
+  const fetchCashLinks = useCallback(async () => {
+    try {
+      setCashlinksLoading(true);
+      setCashlinksError(null);
+
+      const response = await makeAuthenticatedRequest('/api/cash-link', {
+        method: 'GET'
+      });
+
+      // Convert the response format {<txHash>: <cashLink>} to CashLink array
+      const cashlinksArray: CashLink[] = Object.entries(response).map(([txHash, cashLinkCode]) => ({
+        transactionHash: txHash,
+        code: String(cashLinkCode)
+      }));
+
+      setCashlinks(cashlinksArray);
+    } catch (err) {
+      console.error('Error fetching cashlinks:', err);
+      setCashlinksError(
+        err instanceof Error ? err.message : 'An error occurred while fetching cashlinks'
+      );
+    } finally {
+      setCashlinksLoading(false);
+    }
+  }, []);
+
+  // Auto-fetch cashlinks when user is authenticated or changes
+  useEffect(() => {
+    if (isConnected) {
+      fetchCashLinks();
+    }
+  }, [isConnected, fetchCashLinks]);
+
   // Fetch transactions function
   const refreshTransactions = useCallback(
     async (isRefresh = false) => {
@@ -275,7 +328,15 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     transactionsLoading,
     transactionsRefreshing,
     transactionsError,
-    refreshTransactions
+    refreshTransactions,
+
+    // CashLinks
+    cashlinks,
+    cashlinksLoading,
+    cashlinksError,
+    addCashLink,
+    updateCashLink,
+    fetchCashLinks
   };
 
   return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
@@ -326,6 +387,25 @@ export const useWallet = () => {
     user,
     transactionRefreshTrigger,
     triggerTransactionRefresh
+  };
+};
+
+export const useCashLinks = () => {
+  const {
+    cashlinks,
+    cashlinksLoading,
+    cashlinksError,
+    addCashLink,
+    updateCashLink,
+    fetchCashLinks
+  } = useGlobalContext();
+  return {
+    cashlinks,
+    cashlinksLoading,
+    cashlinksError,
+    addCashLink,
+    updateCashLink,
+    fetchCashLinks
   };
 };
 

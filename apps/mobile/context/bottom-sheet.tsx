@@ -3,11 +3,12 @@ import type BottomSheet from '@gorhom/bottom-sheet';
 import React, { createContext, useRef, useState } from 'react';
 import { Transaction } from '../types';
 
-type bottomSheetTypes = 'transaction' | 'courseOrder' | 'gradeSettings';
+type bottomSheetTypes = 'transaction' | 'depositOptions';
 interface BottomSheetContextType {
   activeResultId: string | undefined;
   setActiveResultId: React.Dispatch<React.SetStateAction<string | undefined>>;
   transactionBottomSheetRef: React.RefObject<BottomSheet | null>;
+  depositOptionsBottomSheetRef: React.RefObject<BottomSheet | null>;
   open: (type: bottomSheetTypes, payload?: { transaction?: Transaction }) => void;
   close: (type: bottomSheetTypes) => void;
   selectedTransaction: Transaction | null;
@@ -18,6 +19,7 @@ const BottomSheetContext = createContext<BottomSheetContextType | null>(null);
 
 export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const transactionBottomSheetRef = useRef<BottomSheet | null>(null);
+  const depositOptionsBottomSheetRef = useRef<BottomSheet | null>(null);
   const [activeResultId, setActiveResultId] = useState<string | undefined>(undefined);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
@@ -26,6 +28,9 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({ c
       case 'transaction':
         if (payload?.transaction) setSelectedTransaction(payload.transaction);
         transactionBottomSheetRef.current?.snapToIndex(1);
+        break;
+      case 'depositOptions':
+        depositOptionsBottomSheetRef.current?.snapToIndex(1);
         break;
       default:
         break;
@@ -36,6 +41,9 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({ c
       case 'transaction':
         transactionBottomSheetRef.current?.close();
         setSelectedTransaction(null);
+        break;
+      case 'depositOptions':
+        depositOptionsBottomSheetRef.current?.close();
         break;
       default:
         break;
@@ -50,6 +58,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({ c
         activeResultId,
         setActiveResultId,
         transactionBottomSheetRef,
+        depositOptionsBottomSheetRef,
         selectedTransaction,
         setSelectedTransaction
       }}

@@ -21,6 +21,12 @@ export interface Transaction {
   };
 }
 
+// CashLink type for managing cashlink codes
+export interface CashLink {
+  transactionHash: string;
+  code: string;
+}
+
 export interface GlobalContextType {
   // Token Balance State
   balance: TokenBalance | null;
@@ -53,4 +59,12 @@ export interface GlobalContextType {
   transactionsRefreshing: boolean;
   transactionsError: string | null;
   refreshTransactions: (isRefresh?: boolean) => Promise<void>;
+
+  // CashLinks State
+  cashlinks: CashLink[];
+  cashlinksLoading: boolean;
+  cashlinksError: string | null;
+  addCashLink: (cashlink: CashLink) => void;
+  updateCashLink: (transactionHash: string, updates: Partial<CashLink>) => void;
+  fetchCashLinks: () => Promise<void>;
 }

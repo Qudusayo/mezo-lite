@@ -91,10 +91,45 @@ const BackspaceIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const BankIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11m16-11v11M8 14v3m4-3v3m4-3v3" />
+  </Svg>
+);
+
 const BoltIcon = (props: SvgProps) => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" {...props}>
     <Path d="M0 0h24v24H0z" fill="none" />
     <Path d="m13 2 .018.001.016.001.083.005.011.002h.011l.038.009.052.008.016.006.011.001.029.011.052.014.019.009.015.004.028.014.04.017.021.012.022.01.023.015.031.017.034.024.018.011.013.012.024.017.038.034.022.017.008.01.014.012.036.041.026.027.006.009c.12.147.196.322.218.513l.001.012.002.041L14 3v6h5a1 1 0 0 1 .868 1.497l-.06.091-8 11C11.24 22.371 10 21.968 10 21v-6H5a1 1 0 0 1-.868-1.497l.06-.091 8-11 .01-.013.018-.024.033-.038.018-.022.009-.008.013-.014.04-.036.028-.026.008-.006a1 1 0 0 1 .402-.199l.011-.001.027-.005.074-.013.011-.001.041-.002z" />
+  </Svg>
+);
+
+const CopyIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M7 9.667A2.667 2.667 0 0 1 9.667 7h8.666A2.667 2.667 0 0 1 21 9.667v8.666A2.667 2.667 0 0 1 18.333 21H9.667A2.667 2.667 0 0 1 7 18.333z" />
+    <Path d="M4.012 16.737A2 2 0 0 1 3 15V5c0-1.1.9-2 2-2h10c.75 0 1.158.385 1.5 1" />
   </Svg>
 );
 
@@ -198,6 +233,24 @@ const PlusIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const PremiumRight = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0" />
+    <Path d="M13.867 9.75c-.246-.48-.708-.769-1.2-.75h-1.334C10.597 9 10 9.67 10 10.5c0 .827.597 1.499 1.333 1.499h1.334c.736 0 1.333.671 1.333 1.5 0 .828-.597 1.499-1.333 1.499h-1.334c-.492.019-.954-.27-1.2-.75M12 7v2m0 6v2" />
+  </Svg>
+);
+
 const QrCodeIcon = (props: SvgProps) => (
   <Svg
     width={24}
@@ -216,13 +269,7 @@ const QrCodeIcon = (props: SvgProps) => (
 );
 
 const ReceiptDollarIcon = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    {...props}
-  >
+  <Svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" {...props}>
     <Path d="M0 0h24v24H0z" fill="none" />
     <Path d="M17 2a3 3 0 0 1 3 3v16a1 1 0 0 1-1.555.832l-2.318-1.545-1.42 1.42a1 1 0 0 1-1.32.083l-.094-.083L12 20.415l-1.293 1.292a1 1 0 0 1-1.32.083l-.094-.083-1.421-1.42-2.317 1.545-.019.012-.054.03-.028.017-.054.023-.05.023-.049.015-.06.019-.052.009-.057.011-.084.006-.026.003H5l-.049-.003h-.039l-.013-.003h-.016l-.041-.008-.038-.005-.015-.005-.018-.002-.034-.011-.04-.01-.019-.007-.015-.004-.029-.013-.04-.015-.021-.011-.013-.005-.028-.016-.036-.018-.014-.01-.018-.01-.038-.027-.022-.014-.01-.009-.02-.014-.045-.041-.012-.008-.024-.024-.035-.039-.02-.02-.007-.011-.011-.012-.032-.045-.02-.025-.012-.019-.03-.054-.017-.028-.023-.054-.023-.05a1 1 0 0 1-.034-.108l-.01-.057-.01-.053L4 21V5a3 3 0 0 1 3-3zm-5 3a1 1 0 0 0-1 1 3 3 0 1 0 0 6v2c-.403.013-.75-.18-.934-.5a1 1 0 0 0-1.732 1 3 3 0 0 0 2.505 1.5l.161-.001A1 1 0 1 0 13 16l.176-.005A3 3 0 0 0 13 10V8c.403-.013.75.18.934.5a1 1 0 0 0 1.732-1A3 3 0 0 0 13.161 6H13a1 1 0 0 0-1-1m1 7a1 1 0 0 1 0 2zm-2-4v2a1 1 0 0 1 0-2" />
   </Svg>
@@ -277,6 +324,23 @@ const ScanIcon = (props: SvgProps) => (
   >
     <Path d="M0 0h24v24H0z" stroke="none" />
     <Path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2m8-16h2a2 2 0 0 1 2 2v2m-4 12h2a2 2 0 0 0 2-2v-2" />
+  </Svg>
+);
+
+const ShareIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M13 4v4C6.425 9.028 3.98 14.788 3 20c-.037.206 5.384-5.962 10-6v4l8-7z" />
   </Svg>
 );
 
@@ -344,5 +408,9 @@ export {
   XIcon,
   ReloadIcon,
   UnlinkIcon,
-  ReceiptDollarIcon
+  ReceiptDollarIcon,
+  ShareIcon,
+  CopyIcon,
+  BankIcon,
+  PremiumRight
 };
