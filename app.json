@@ -3,8 +3,11 @@
     "name": "Mezo Lite",
     "slug": "mezo-lite",
     "version": "1.0.0",
-    "scheme": "mezo-lite",
-    "platforms": ["ios", "android"],
+    "scheme": "mezolite",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -62,10 +65,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.qudusayo.mezo-lite"
+      "bundleIdentifier": "com.qudusayo.mezolite",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -74,11 +82,16 @@
       },
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.qudusayo.mezolite"
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "2901a20f-5dcd-4f9f-b738-e9e11c58d0ae"
+      }
+    },
+    "owner": "qudusayo"
   }
 }
