@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import React, { useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useBottomSheetContext } from 'context/bottom-sheet';
-import { BankIcon, LinkIcon, PremiumRight } from 'components/icons';
+import { BankIcon, BinanceIcon, LinkIcon, PremiumRight } from 'components/icons';
 import { SvgProps } from 'react-native-svg';
 import { Link, useRouter } from 'expo-router';
 
@@ -20,6 +20,12 @@ const DepositOptionsBottomSheet = () => {
     >
       <BottomSheetView className="relative gap-4 px-4 pb-20 pt-4">
         <Text className="font-satoshiSemiBold text-2xl">Deposit From</Text>
+        <DepositOptions
+          icon={BinanceIcon}
+          title="Manual Deposit"
+          description="Deposit manually using a wallet address"
+          href="/"
+        />
         <DepositOptions
           icon={LinkIcon}
           title="CashLink"
@@ -69,7 +75,7 @@ const DepositOptions = ({
         }
       }}
       activeOpacity={href ? 0.8 : 1}
-      className="flex-row items-center gap-4 rounded-xl bg-light p-4"
+      className="flex-row items-center gap-4 rounded-xl bg-light/5 border border-light/5 p-4"
     >
       {comingSoon ? (
         <View className="absolute -top-2 right-3  rounded-xl bg-primary px-2 py-0.5">

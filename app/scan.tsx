@@ -1,5 +1,6 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { AppState, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { AppState, Platform, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Overlay } from 'components/overlay';
 import { useEffect, useRef } from 'react';
 import { router } from 'expo-router';
@@ -43,7 +44,10 @@ export default function Scan() {
           if (data && !qrLock.current) {
             qrLock.current = true;
             setTimeout(async () => {
-              router.push(`/(pay)/phone/${data}`);
+              router.push({
+                pathname: '/recipient',
+                params: { payload: data },
+              });
             }, 500);
           }
         }}

@@ -78,7 +78,7 @@ const ClaimCashLink = () => {
       <View className="flex-1 gap-16 bg-white pt-4">
         <View className="flex-1">
           <View className="mb-8">
-            <Text className="mb-2 font-satoshiSemiBold text-4xl">Redeem a Cash Link</Text>
+            <Text className="font-satoshiSemiBold text-4xl">Redeem a Cash Link</Text>
             <Text className="font-satoshiRegular text-base text-gray-500">
               Enter the cash link code to claim your funds
             </Text>

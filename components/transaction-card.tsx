@@ -5,7 +5,7 @@ import Shimmer from './shimmer';
 import { cn, formatAddress, formatAmount, formatDate } from 'utils';
 import { useBottomSheetContext } from 'context/bottom-sheet';
 import { Transaction } from '../types';
-import { CASHLINK_ESCROW_ADDRESS } from 'utils/constants';
+import { CASHLINK_ESCROW_ADDRESS, DONATION_RECIPIENT_ADDRESS } from 'utils/constants';
 
 const TransactionCard = ({
   isReceiving,
@@ -14,7 +14,7 @@ const TransactionCard = ({
   address,
   decimals,
   symbol,
-  transaction
+  transaction,
 }: {
   isReceiving: boolean;
   amount: number;
@@ -26,6 +26,7 @@ const TransactionCard = ({
 }) => {
   const { open } = useBottomSheetContext();
   const isCashLink = address.toLowerCase() === CASHLINK_ESCROW_ADDRESS.toLowerCase();
+  const isMezo = address.toLowerCase() === DONATION_RECIPIENT_ADDRESS.toLowerCase();
 
   const handleOpenBottomSheet = () => {
     open('transaction', { transaction });
@@ -35,14 +36,12 @@ const TransactionCard = ({
     <TouchableOpacity
       className="my-2 flex-row items-center justify-between gap-4"
       onPress={handleOpenBottomSheet}
-      activeOpacity={0.8}
-    >
+      activeOpacity={0.8}>
       <View
         className={cn(
           'size-12 flex-row items-center justify-center rounded-full',
           isReceiving ? 'bg-success/25' : 'bg-error/25'
-        )}
-      >
+        )}>
         {isCashLink ? (
           <ReceiptDollarIcon color={isReceiving ? '#4CAF50' : '#F44336'} />
         ) : isReceiving ? (
@@ -53,11 +52,13 @@ const TransactionCard = ({
       </View>
       <View className="flex-1">
         <Text className="font-satoshiSemiBold text-lg">
-          {isCashLink
-            ? isReceiving
-              ? 'Claimed Cash Link'
-              : 'Sent Cash Link'
-            : formatAddress(address)}
+          {isMezo
+            ? 'Donation'
+            : isCashLink
+              ? isReceiving
+                ? 'Claimed Cash Link'
+                : 'Sent Cash Link'
+              : formatAddress(address)}
         </Text>
         <Text className="-top-1 font-satoshi text-sm text-gray-400">{formatDate(timestamp)}</Text>
       </View>
@@ -66,8 +67,7 @@ const TransactionCard = ({
           className={cn(
             'font-satoshiSemiBold text-lg',
             isReceiving ? 'text-success' : 'text-error'
-          )}
-        >
+          )}>
           {isReceiving ? '+' : '-'}${Number(formatAmount(amount, decimals)).toFixed(2)}
         </Text>
       </View>

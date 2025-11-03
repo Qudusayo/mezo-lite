@@ -38,6 +38,22 @@ const ArrowLeftIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const ArrowRightIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M5 12h14m-6 6 6-6m-6-6 6 6" />
+  </Svg>
+);
+
 const ArrowUpIcon = (props: SvgProps) => (
   <Svg
     width={24}
@@ -110,6 +126,22 @@ const BoltIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const BinanceIcon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="m6 8 2 2 4-4 4 4 2-2-6-6zm0 8 2-2 4 4 3.5-3.5 2 2L12 22zm14-6 2 2-2 2-2-2zM4 10l2 2-2 2-2-2zm8 0 2 2-2 2-2-2z" />
+  </Svg>
+);
+
 const CopyIcon = (props: SvgProps) => (
   <Svg
     width={24}
@@ -174,7 +206,23 @@ const LinkIcon = (props: SvgProps) => (
   </Svg>
 );
 
-const LoacationDollarIcon = (props: SvgProps) => (
+const Loader2Icon = (props: SvgProps) => (
+  <Svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <Path d="M0 0h24v24H0z" stroke="none" />
+    <Path d="M12 3a9 9 0 1 0 9 9" />
+  </Svg>
+);
+
+const LocationDollarIcon = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
@@ -343,6 +391,13 @@ const UnlinkIcon = (props: SvgProps) => (
   </Svg>
 );
 
+const UserIcon = (props: SvgProps) => (
+  <Svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <Path d="M0 0h24v24H0z" fill="none" />
+    <Path d="M12 2a5 5 0 1 1-5 5l.005-.217A5 5 0 0 1 12 2m2 12a5 5 0 0 1 5 5v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-1a5 5 0 0 1 5-5z" />
+  </Svg>
+);
+
 const WalletIcon = (props: SvgProps) => (
   <Svg width={24} height={24} viewBox="0 0 512 512" fill="currentColor" {...props}>
     <Path d="M95.5 104h320a87.73 87.73 0 0111.18.71 66 66 0 00-77.51-55.56L86 94.08h-.3a66 66 0 00-41.07 26.13A87.57 87.57 0 0195.5 104zM415.5 128h-320a64.07 64.07 0 00-64 64v192a64.07 64.07 0 0064 64h320a64.07 64.07 0 0064-64V192a64.07 64.07 0 00-64-64zM368 320a32 32 0 1132-32 32 32 0 01-32 32z" />
@@ -371,12 +426,15 @@ export {
   ArrowBigDownLinesIcon,
   ArrowBigUpLinesIcon,
   ArrowLeftIcon,
+  ArrowRightIcon,
   ArrowUpIcon,
   AtIcon,
   BackspaceIcon,
   BoltIcon,
+  BinanceIcon,
   DiamondIcon,
-  LoacationDollarIcon,
+  Loader2Icon,
+  LocationDollarIcon,
   LinkIcon,
   InfoCircleIcon,
   WalletIcon,
@@ -394,4 +452,5 @@ export {
   CopyIcon,
   BankIcon,
   PremiumRight,
+  UserIcon,
 };

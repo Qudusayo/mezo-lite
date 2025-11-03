@@ -1,7 +1,7 @@
 // app/services/auth.ts
 import * as SecureStore from 'expo-secure-store';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = process.env.EXPO_PUBLIC_WEB_URI!;
 
 const X_AUTH_KEY = process.env.EXPO_PUBLIC_X_AUTH_KEY!;
 
