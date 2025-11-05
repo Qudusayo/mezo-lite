@@ -1,3 +1,5 @@
+Unfortunatelty, Apple rejected my submission and couldn't be available for testflight because it crashed on iPad Air (5th Gen). If you would like to test the application on your personal device, you can [reach out to me here](https://www.qudusayo.pro/contact-me) so I can add you to my internal testing group prior to when I get the apple issue sorted.
+
 ## Mezo Lite
 
 Mezo Lite is a lightweight, mobile-first experience for creating and claiming cash links on the Mezo testnet. The repository is a monorepo containing:
