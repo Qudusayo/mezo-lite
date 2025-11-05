@@ -1,3 +1,5 @@
+Unfortunatelty, Apple rejected my submission and couldn't be available for testflight because it crashed on iPad Air (5th Gen). If you would like to test the application on your personal device, you can [reach out to me here](https://www.qudusayo.pro/contact-me) so I can add you to my internal testing group prior to when I get the apple issue sorted.
+
 ## Mezo Lite Mobile
 
 Self-custodial, mobile-first MUSD wallet on Bitcoin-secured Mezo. Send, receive, and spend in USD (MUSD) with fast, low-fee settlement; one-tap swap UX and cash-link flows.

@@ -69,7 +69,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.qudusayo.mezolite",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
