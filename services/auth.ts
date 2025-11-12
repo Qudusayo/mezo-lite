@@ -6,7 +6,7 @@ const API_URL = process.env.EXPO_PUBLIC_WEB_URI!;
 const X_AUTH_KEY = process.env.EXPO_PUBLIC_X_AUTH_KEY!;
 
 interface UserData {
-  phoneNumber: string;
+  email: string;
   username: string;
   walletAddress: string;
 }

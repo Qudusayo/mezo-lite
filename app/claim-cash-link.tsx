@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import WithArrowBack from 'layout/WithArrowBack';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
@@ -9,11 +9,21 @@ import { CASHLINK_ESCROW_ADDRESS } from 'utils/constants';
 import { CASHLINK_ESCROW_ABI } from 'utils/abi';
 import { encodeFunctionData } from 'viem';
 import { cn } from 'utils';
+import { useLocalSearchParams } from 'expo-router';
 
 const ClaimCashLink = () => {
-  const [claimCode, setClaimCode] = useState('');
+  const localSearchParams = useLocalSearchParams();
+  const tokenFromUrl = localSearchParams.token as string | undefined;
+  const [claimCode, setClaimCode] = useState(tokenFromUrl || '');
   const [isLoading, setIsLoading] = useState(false);
   const { wallets, viem } = useReactiveClient(dynamicClient);
+
+  // Update claimCode when token parameter changes (e.g., from deep link)
+  useEffect(() => {
+    if (tokenFromUrl) {
+      setClaimCode(tokenFromUrl);
+    }
+  }, [tokenFromUrl]);
 
   const handleClaimCashLink = async () => {
     if (!claimCode.trim()) {

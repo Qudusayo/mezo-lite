@@ -23,7 +23,7 @@ const Recipient = () => {
       console.log('Resolve user response:', data);
       router.push({
         pathname: '/amount',
-        params: { recipient: data.user.phoneNumber, address: data.user.walletAddress },
+        params: { recipient: data.user.email, address: data.user.walletAddress },
       });
     } catch (error) {
       console.error('Error resolving user:', error);
@@ -39,7 +39,7 @@ const Recipient = () => {
           <View className="mb-8">
             <Text className="font-satoshiSemiBold text-4xl">Enter Recipient</Text>
             <Text className="font-satoshiRegular text-base text-gray-500">
-              Enter the recipient&apos;s phone number to send money to
+              Enter the recipient&apos;s email to send money to
             </Text>
           </View>
 
@@ -47,7 +47,7 @@ const Recipient = () => {
             <TextInput
               value={recipient}
               onChangeText={setRecipient}
-              placeholder="Username or Phone Number"
+              placeholder="Username or Email"
               className="font-satoshiRegular flex-1 rounded-lg border border-gray-300 p-4 text-base leading-tight text-black"
               placeholderTextColor="#9CA3AF"
               autoCapitalize="none"

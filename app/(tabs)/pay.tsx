@@ -16,7 +16,7 @@ const Pay = () => {
             className="flex-row items-center gap-4 rounded-t-xl bg-[#7978770c] p-4">
             <PhoneIcon color="black" width={24} height={24} />
             <View>
-              <Text className="font-satoshiMedium text-xl">Phone Number</Text>
+              <Text className="font-satoshiMedium text-xl">Contact</Text>
               <Text className="font-sans text-base leading-5">To any of your contacts</Text>
             </View>
           </TouchableOpacity>

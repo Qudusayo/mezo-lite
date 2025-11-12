@@ -1,24 +1,19 @@
-import { Text, SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useMemo } from 'react';
 import { QrCodeSvg } from 'react-native-qr-svg';
 import { dynamicClient } from 'utils/config';
 import { useReactiveClient } from '@dynamic-labs/react-hooks';
-import { ArrowLeftIcon } from 'components/icons';
-import { router } from 'expo-router';
+import WithArrowBack from 'layout/WithArrowBack';
 
 const SIZE = 250;
 
 const Qr = () => {
-  const { auth, wallets } = useReactiveClient(dynamicClient);
+  const { auth } = useReactiveClient(dynamicClient);
   const user = useMemo(() => auth.authenticatedUser, [auth.authenticatedUser]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 p-4">
-        <TouchableOpacity activeOpacity={0.8} onPress={() => router.back()}>
-          <ArrowLeftIcon color="black" width={24} height={24} />
-        </TouchableOpacity>
-        <View className="mt-2 flex-1 items-center justify-center gap-4">
+    <WithArrowBack>
+      <View className="mt-2 flex-1 items-center justify-center gap-4">
           <View
             style={{
               height: SIZE + 45
@@ -31,7 +26,7 @@ const Qr = () => {
                 backgroundColor: '#FFBB00',
                 borderWidth: 8
               }}
-              value={user?.phoneNumber || ''}
+              value={user?.email || ''}
               frameSize={SIZE}
               contentCells={4}
               dotColor="#000000"
@@ -50,15 +45,14 @@ const Qr = () => {
             />
           </View>
           <Text className="mb-4 font-satoshiMedium text-2xl tracking-widest">
-            {user?.phoneNumber}
+            {user?.email}
           </Text>
           <View className="w-9/12 flex-row gap-4">
             <ControlButton>Copy</ControlButton>
             <ControlButton>Share</ControlButton>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
+    </WithArrowBack>
   );
 };
 

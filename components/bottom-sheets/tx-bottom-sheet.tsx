@@ -79,7 +79,7 @@ const TransactionBottomSheet = () => {
     if (!associatedCashLink) return;
 
     try {
-      const shareMessage = `Check out this CashLink: ${associatedCashLink.code}`;
+      const shareMessage = `Check out this CashLink: ${process.env.EXPO_PUBLIC_WEB_URI}/${associatedCashLink.code}`;
 
       await Share.share({
         message: shareMessage,
