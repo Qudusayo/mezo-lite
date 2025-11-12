@@ -17,7 +17,7 @@ datasource db {
 model User {
   id            String     @id @default(cuid())
   username      String     @unique
-  phoneNumber   String     @unique
+  email         String     @unique
   walletAddress String     @unique
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
@@ -26,7 +26,7 @@ model User {
   Cashlink      Cashlink[]
 
   @@index([username])
-  @@index([phoneNumber])
+  @@index([email])
 }
 
 model Account {
@@ -74,6 +74,6 @@ model Cashlink {
   transactionHash String   @unique
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  userPhoneNumber String
-  user            User     @relation(fields: [userPhoneNumber], references: [phoneNumber], onDelete: Cascade)
+  userEmail       String
+  user            User     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }

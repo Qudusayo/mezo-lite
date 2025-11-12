@@ -167,7 +167,7 @@ export default function Home() {
                     </p>
                     <a
                       className="rounded-full bg-black text-label-lg text-white h-11 items-center justify-center mt-2 w-[216px] flex"
-                      href="https://cash.minipay.xyz/?medium=landing_page&amp;source=cashlink#7qXAV7igmUjcaSOns-7WKw"
+                      href={`#`}
                       id="cashlink-anchor"
                       target="_blank"
                       data-astro-cid-mseuu5kk=""

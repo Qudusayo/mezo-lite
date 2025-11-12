@@ -4,13 +4,13 @@ import { requireValidSession } from "@/utils/session";
 async function createCashlink({
   code,
   transactionHash,
-  userPhoneNumber,
+  userEmail,
 }: {
   code: string;
   transactionHash: string;
-  userPhoneNumber: string;
+  userEmail: string;
 }) {
-  const data = { code, userPhoneNumber, transactionHash };
+  const data = { code, userEmail, transactionHash };
   console.log("Data:", data);
   return await prisma.cashlink.create({ data });
 }
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
     // Get all cashlinks for the user
     const cashlinks = await prisma.cashlink.findMany({
-      where: { userPhoneNumber: session.user.phoneNumber },
+      where: { userEmail: session.user.email },
       select: {
         code: true,
         transactionHash: true,
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     const cashlink = await createCashlink({
       code,
       transactionHash,
-      userPhoneNumber: session.user.phoneNumber,
+      userEmail: session.user.email,
     });
 
     return Response.json({

@@ -11,10 +11,10 @@ export async function POST(request: Request) {
 
     const { payload } = await request.json();
 
-    // Payload could be username or phone number
+    // Payload could be username or email
     const user = await prisma.user.findFirst({
       where: {
-        OR: [{ username: payload }, { phoneNumber: payload }],
+        OR: [{ username: payload }, { email: payload }],
       },
     });
 

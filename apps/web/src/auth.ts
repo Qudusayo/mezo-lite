@@ -3,18 +3,18 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 async function findOrCreateUser({
-  phoneNumber,
+  email,
   username,
   walletAddress,
 }: {
-  phoneNumber: string;
+  email: string;
   username: string;
   walletAddress: string;
 }) {
   return await prisma.user.upsert({
-    where: { phoneNumber },
+    where: { email },
     update: { username, walletAddress },
-    create: { phoneNumber, username, walletAddress },
+    create: { email, username, walletAddress },
   });
 }
 
@@ -24,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       id: "mobile-auth",
       name: "Mobile Auth",
       credentials: {
-        phoneNumber: { label: "Phone Number", type: "text" },
+        email: { label: "Email", type: "text" },
         username: { label: "Username", type: "text" },
         walletAddress: { label: "Wallet Address", type: "text" },
         xAuthKey: { label: "X-AUTH-KEY", type: "text" },
@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("No credentials provided");
         }
 
-        const { phoneNumber, username, walletAddress, xAuthKey } = credentials;
+        const { email, username, walletAddress, xAuthKey } = credentials;
 
         if (xAuthKey !== process.env.X_AUTH_KEY) {
           throw new Error("Unauthorized");
@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Check or create user in DB
         const user = await findOrCreateUser({
-          phoneNumber,
+          email,
           username,
           walletAddress,
         });

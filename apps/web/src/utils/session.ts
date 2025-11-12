@@ -3,7 +3,7 @@ import { prisma } from "@/prisma";
 
 export interface SessionUser {
   id: string;
-  phoneNumber: string;
+  email: string;
   username: string;
   walletAddress: string;
 }
@@ -44,7 +44,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
       where: { id: decoded.sub as string },
       select: {
         id: true,
-        phoneNumber: true,
+        email: true,
         username: true,
         walletAddress: true,
       },

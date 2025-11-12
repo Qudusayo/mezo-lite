@@ -2,18 +2,18 @@ import { prisma } from "@/prisma";
 import { encode } from "next-auth/jwt";
 
 async function findOrCreateUser({
-  phoneNumber,
+  email,
   username,
   walletAddress,
 }: {
-  phoneNumber: string;
+  email: string;
   username: string;
   walletAddress: string;
 }) {
   return await prisma.user.upsert({
-    where: { phoneNumber },
+    where: { email },
     update: { username, walletAddress },
-    create: { phoneNumber, username, walletAddress },
+    create: { email, username, walletAddress },
   });
 }
 
@@ -36,9 +36,9 @@ export async function POST(request: Request) {
     return Response.json({ message: "No body provided" }, { status: 400 });
   }
 
-  const { phoneNumber, username, walletAddress } = body;
+  const { email, username, walletAddress } = body;
 
-  if (!phoneNumber || !username || !walletAddress) {
+  if (!email || !username || !walletAddress) {
     return Response.json(
       { message: "Missing required fields" },
       { status: 400 }
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
   try {
     const user = await findOrCreateUser({
-      phoneNumber,
+      email,
       username: username.toLowerCase(),
       walletAddress,
     });
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     const token = await encode({
       token: {
         sub: user.id,
-        phoneNumber: user.phoneNumber,
+        email: user.email,
         username: user.username.toLowerCase(),
         walletAddress: user.walletAddress,
         iat: Math.floor(Date.now() / 1000),
